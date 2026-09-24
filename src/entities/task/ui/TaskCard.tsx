@@ -1,14 +1,15 @@
+import type { ReactNode } from 'react';
 import type { ITask } from '../model/types';
 
-import deleteIcon from '~shared/assets/icons/delete.svg';
 import styles from './TaskCard.module.css';
 import { SIZE_ICON, statusIcon } from './consts';
 
 interface TaskCardProps {
   taskItem: ITask;
+  actions?: ReactNode;
 }
 
-export const TaskCard = ({ taskItem }: TaskCardProps) => {
+export const TaskCard = ({ taskItem, actions }: TaskCardProps) => {
   const icon = statusIcon[taskItem.status];
 
   return (
@@ -23,9 +24,7 @@ export const TaskCard = ({ taskItem }: TaskCardProps) => {
           height={SIZE_ICON}
         />
 
-        <button aria-label="Удалить задачу" className={styles.delete}>
-          <img src={deleteIcon} alt="" width={SIZE_ICON} height={SIZE_ICON} />
-        </button>
+        {actions}
       </div>
     </article>
   );

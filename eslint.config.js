@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import importPlugin from 'eslint-plugin-import';
 import boundaries from 'eslint-plugin-boundaries';
@@ -8,19 +9,17 @@ import tseslint from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
 import globals from 'globals';
 
-// Слои со слайсами, сверху вниз (app и shared слайсов не имеют)
 const SLICE_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 const LAYERS = ['app', ...SLICE_LAYERS, 'shared'];
 
 const sliceLayersBelow = (layer) =>
   SLICE_LAYERS.filter((l) => LAYERS.indexOf(l) > LAYERS.indexOf(layer));
 
-// Алиасы из tsconfig paths: ~shared/*, ~entities/*…
-// Относительные пути описаны как «не алиас»: micromatch не матчит './x' и '../../x' шаблонами './**' / '../**'
+// Относительные пути задаются как «не алиас»: micromatch не матчит './x' и '../../x'
+// шаблонами './**' / '../**'
 const ALIAS_SOURCE = '~*/**';
 const NOT_ALIAS_SOURCE = '!~*/**';
 
-// Публичный API слайса — только его корневой index.ts
 const publicApi = { file: { path: 'src/*/*/index.{ts,tsx}' } };
 
 export default [
@@ -28,8 +27,6 @@ export default [
 
   js.configs.recommended,
 
-  // Строгий набор с проверкой типов — только для TS-файлов.
-  // no-explicit-any и no-unsafe-* запрещают any как явно, так и «утечкой» из нетипизированного кода.
   ...tseslint.configs.strictTypeChecked.map((config) => ({
     ...config,
     files: ['**/*.{ts,tsx}'],
@@ -40,8 +37,6 @@ export default [
 
     languageOptions: {
       parser: tseslint.parser,
-      ecmaVersion: 2020,
-      sourceType: 'module',
       globals: globals.browser,
       parserOptions: {
         projectService: true,
@@ -64,14 +59,12 @@ export default [
 
       'import/resolver': {
         typescript: {
-          // Абсолютный путь: относительный резолвится от cwd ESLint-процесса,
-          // а в IDE он может не совпадать с корнем проекта
+          // Относительный путь резолвится от cwd процесса ESLint, а в IDE cwd
+          // может не совпадать с корнем проекта
           project: `${import.meta.dirname}/tsconfig.app.json`,
         },
       },
 
-      // partialMatch: false — паттерн матчится от корня проекта, а не с конца пути.
-      // app и shared — слои без слайсов (только сегменты), остальные слои делятся на слайсы.
       'boundaries/elements': [
         { type: 'app', pattern: 'src/app', partialMatch: false },
         {
@@ -108,16 +101,11 @@ export default [
       ...reactHooks.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
       ...importPlugin.configs.recommended.rules,
-      'import/no-unresolved': 'error',
 
-      // Импорты только сверху вниз. Импорты между слайсами одного слоя
-      // запрещены через default: 'disallow'; импорты внутри слайса не проверяются.
-      // В слайсы pages/widgets/features/entities — только через публичный API (index.ts).
       'boundaries/dependencies': [
         'error',
         {
           default: 'disallow',
-          // Проверять и импорты внутри элемента — нужно для правил о стиле путей ниже
           checkInternals: true,
           policies: [
             {
@@ -173,20 +161,17 @@ export default [
               allow: { to: { element: { type: 'shared' } } },
             },
 
-            // --- Стиль путей. При конфликте побеждает последняя совпавшая политика ---
-
-            // Между слайсами и слоями — только алиасы (~entities/task), без ../../
+            // Политики стиля путей. При конфликте побеждает последняя совпавшая,
+            // поэтому порядок важен: запрет → исключение для internal → запрет алиаса внутри слайса
             {
               to: { element: { types: { anyOf: LAYERS } } },
               disallow: { dependency: { source: NOT_ALIAS_SOURCE } },
               message:
                 'Импорт из другого слайса или слоя — только через алиас (~layer/slice), без относительных путей',
             },
-            // Импорты внутри элемента (слайса, app, shared) разрешены — перекрывает запрет выше
             {
               allow: { dependency: { relationship: { to: 'internal' } } },
             },
-            // …но внутри слайса — только относительные. В app и shared алиасы допустимы
             {
               from: { element: { types: { anyOf: SLICE_LAYERS } } },
               disallow: {
@@ -207,13 +192,11 @@ export default [
   {
     files: ['**/*.{ts,tsx}'],
     rules: {
-      // Эти проверки дублирует компилятор TS, а в eslint-plugin-import они медленные
       'import/named': 'off',
       'import/namespace': 'off',
       'import/default': 'off',
       'import/no-named-as-default-member': 'off',
 
-      // Разрешает `onClick={() => setState(x)}` — стандартный паттерн обработчиков в React
       '@typescript-eslint/no-confusing-void-expression': [
         'error',
         { ignoreArrowShorthand: true },
@@ -221,14 +204,14 @@ export default [
     },
   },
 
+  { ...reactRefresh.configs.vite, files: ['**/*.{jsx,tsx}'] },
+
   {
-    // #root гарантированно есть в index.html — non-null assertion в точке входа допустим
     files: ['src/app/main.tsx'],
     rules: {
       '@typescript-eslint/no-non-null-assertion': 'off',
     },
   },
 
-  // Последним — отключает правила, конфликтующие с Prettier
   prettier,
 ];
