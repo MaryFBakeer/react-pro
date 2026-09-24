@@ -15,6 +15,11 @@ const LAYERS = ['app', ...SLICE_LAYERS, 'shared'];
 const sliceLayersBelow = (layer) =>
   SLICE_LAYERS.filter((l) => LAYERS.indexOf(l) > LAYERS.indexOf(layer));
 
+// Алиасы из tsconfig paths: ~shared/*, ~entities/*…
+// Относительные пути описаны как «не алиас»: micromatch не матчит './x' и '../../x' шаблонами './**' / '../**'
+const ALIAS_SOURCE = '~*/**';
+const NOT_ALIAS_SOURCE = '!~*/**';
+
 // Публичный API слайса — только его корневой index.ts
 const publicApi = { file: { path: 'src/*/*/index.{ts,tsx}' } };
 
@@ -59,7 +64,9 @@ export default [
 
       'import/resolver': {
         typescript: {
-          project: './tsconfig.app.json',
+          // Абсолютный путь: относительный резолвится от cwd ESLint-процесса,
+          // а в IDE он может не совпадать с корнем проекта
+          project: `${import.meta.dirname}/tsconfig.app.json`,
         },
       },
 
@@ -110,6 +117,8 @@ export default [
         'error',
         {
           default: 'disallow',
+          // Проверять и импорты внутри элемента — нужно для правил о стиле путей ниже
+          checkInternals: true,
           policies: [
             {
               from: { element: { type: 'app' } },
@@ -162,6 +171,32 @@ export default [
             {
               from: { element: { type: 'entities' } },
               allow: { to: { element: { type: 'shared' } } },
+            },
+
+            // --- Стиль путей. При конфликте побеждает последняя совпавшая политика ---
+
+            // Между слайсами и слоями — только алиасы (~entities/task), без ../../
+            {
+              to: { element: { types: { anyOf: LAYERS } } },
+              disallow: { dependency: { source: NOT_ALIAS_SOURCE } },
+              message:
+                'Импорт из другого слайса или слоя — только через алиас (~layer/slice), без относительных путей',
+            },
+            // Импорты внутри элемента (слайса, app, shared) разрешены — перекрывает запрет выше
+            {
+              allow: { dependency: { relationship: { to: 'internal' } } },
+            },
+            // …но внутри слайса — только относительные. В app и shared алиасы допустимы
+            {
+              from: { element: { types: { anyOf: SLICE_LAYERS } } },
+              disallow: {
+                dependency: {
+                  relationship: { to: 'internal' },
+                  source: ALIAS_SOURCE,
+                },
+              },
+              message:
+                'Внутри слайса используйте относительный импорт вместо алиаса',
             },
           ],
         },

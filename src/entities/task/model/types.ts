@@ -1,5 +1,7 @@
-export interface Task {
+export interface ITask {
   id: string;
   title: string;
-  completed: boolean;
+  status: TTaskStatus;
 }
+
+export type TTaskStatus = 'completed' | 'incomplete';
