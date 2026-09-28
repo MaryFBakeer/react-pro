@@ -1,4 +1,4 @@
-import type { Filter } from '../model/useTasks';
+import type { Filter } from '~features/taskList';
 
 export const filterOptions: readonly { value: Filter; label: string }[] = [
   { value: 'all', label: 'Все' },

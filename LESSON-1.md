@@ -26,8 +26,8 @@ npm run lint
 
 ### 3. Создание виджета «Список задач»
 
-- [x] Хук корректно реализует фильтрацию и удаление — 1 балл — `src/widgets/taskList/model/useTasks.ts`
-- [x] Компонент TaskList правильно отображает отфильтрованные задачи — 1 балл — `src/widgets/taskList/ui/TaskList.tsx`
+- [x] Хук корректно реализует фильтрацию и удаление — 1 балл — `src/features/taskList/model/useTasks.ts`
+- [x] Компонент TaskList правильно отображает отфильтрованные задачи — 1 балл — `src/features/taskList/ui/TaskList.tsx`
 - [x] Используется state-хук и проброс пропсов — 1 балл — `TaskWidget` → `TaskList` → `TaskCard`
 
 ### 4. Страница
