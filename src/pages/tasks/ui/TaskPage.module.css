@@ -1,0 +1,13 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  margin: 0 0 20px;
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+  padding-top: 40px;
+}
