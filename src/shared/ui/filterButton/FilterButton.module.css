@@ -1,0 +1,36 @@
+.button {
+  padding: 8px 16px;
+
+  color: #a5a3c9;
+
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+
+  background: transparent;
+
+  border: 0;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.button:hover {
+  color: #f5f3ff;
+  background: rgba(139, 92, 246, 0.12);
+}
+
+.button:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.6);
+  outline-offset: 2px;
+}
+
+.active,
+.active:hover {
+  color: #f5f3ff;
+  background: #290f72;
+}
