@@ -27,4 +27,4 @@ src/
 
 ## Уроки
 
-- [LESSON-1](./LESSON-1.md) — архитектура FSD, сущность Task, виджет списка задач
+- [LESSON-2](./LESSON-2.md) — оптимизация: `React.memo`, `useMemo`, `useCallback`

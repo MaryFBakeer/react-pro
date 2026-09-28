@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { memo, type ReactNode } from 'react';
 import type { ITask } from '../model/types';
 
 import styles from './TaskCard.module.css';
@@ -6,10 +6,13 @@ import { SIZE_ICON, statusIcon } from './consts';
 
 interface TaskCardProps {
   taskItem: ITask;
-  actions?: ReactNode;
+  actions?: (taskItem: ITask) => ReactNode;
 }
 
-export const TaskCard = ({ taskItem, actions }: TaskCardProps) => {
+export const TaskCard = memo(function TaskCard({
+  taskItem,
+  actions,
+}: TaskCardProps) {
   const icon = statusIcon[taskItem.status];
 
   return (
@@ -24,8 +27,8 @@ export const TaskCard = ({ taskItem, actions }: TaskCardProps) => {
           height={SIZE_ICON}
         />
 
-        {actions}
+        {actions?.(taskItem)}
       </div>
     </article>
   );
-};
+});

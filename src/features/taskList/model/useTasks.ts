@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { ITask, TTaskStatus } from '~entities/task';
 
 export type Filter = 'all' | TTaskStatus;
@@ -14,12 +14,15 @@ export const useTasks = (initial: ITask[]): UseTasksResult => {
   const [tasks, setTasks] = useState<ITask[]>(initial);
   const [filter, setFilter] = useState<Filter>('all');
 
-  const filteredTasks =
-    filter === 'all' ? tasks : tasks.filter((task) => task.status === filter);
+  const filteredTasks = useMemo(
+    () =>
+      filter === 'all' ? tasks : tasks.filter((task) => task.status === filter),
+    [filter, tasks],
+  );
 
-  const removeTask = (id: string) => {
+  const removeTask = useCallback((id: string) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
-  };
+  }, []);
 
   return { tasks: filteredTasks, filter, setFilter, removeTask };
 };
