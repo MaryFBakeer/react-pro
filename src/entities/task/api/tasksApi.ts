@@ -1,13 +1,8 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { baseApi } from '~shared/api';
 import type { ITask } from '../model/types';
 import { transformDataTasksListResponse } from '../model/utils';
 
-export const tasksApi = createApi({
-  reducerPath: 'tasksApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://jsonplaceholder.typicode.com',
-  }),
-  tagTypes: ['Tasks'],
+export const tasksApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getTasks: build.query<ITask[], void>({
       query: () => 'todos',

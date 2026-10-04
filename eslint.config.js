@@ -196,6 +196,7 @@ export default [
       'import/namespace': 'off',
       'import/default': 'off',
       'import/no-named-as-default-member': 'off',
+      '@typescript-eslint/no-invalid-void-type': 'off',
 
       '@typescript-eslint/no-confusing-void-expression': [
         'error',
