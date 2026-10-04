@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import type { ITask, TTaskStatus } from '~entities/task';
+import { useGetTasksQuery } from '~entities/task';
 
 export type Filter = 'all' | TTaskStatus;
 
@@ -8,21 +9,30 @@ interface UseTasksResult {
   filter: Filter; // текущий фильтр
   setFilter: (f: Filter) => void; // смена фильтра
   removeTask: (id: string) => void; // удаление задачи по ID
+  isError: boolean;
 }
 
-export const useTasks = (initial: ITask[]): UseTasksResult => {
-  const [tasks, setTasks] = useState<ITask[]>(initial);
+const EMPTY_TASKS: ITask[] = [];
+
+export const useTasks = (): UseTasksResult => {
+  const { data = EMPTY_TASKS, isError } = useGetTasksQuery();
+
+  const [removedIds, setRemovedIds] = useState<string[]>([]);
   const [filter, setFilter] = useState<Filter>('all');
 
   const filteredTasks = useMemo(
     () =>
-      filter === 'all' ? tasks : tasks.filter((task) => task.status === filter),
-    [filter, tasks],
+      data.filter(
+        (task) =>
+          !removedIds.includes(task.id) &&
+          (filter === 'all' || task.status === filter),
+      ),
+    [data, removedIds, filter],
   );
 
   const removeTask = useCallback((id: string) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
+    setRemovedIds((prev) => [...prev, id]);
   }, []);
 
-  return { tasks: filteredTasks, filter, setFilter, removeTask };
+  return { tasks: filteredTasks, filter, setFilter, removeTask, isError };
 };

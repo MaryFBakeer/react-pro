@@ -5,3 +5,10 @@ export interface ITask {
 }
 
 export type TTaskStatus = 'completed' | 'incomplete';
+
+export interface ITaskApi {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+}

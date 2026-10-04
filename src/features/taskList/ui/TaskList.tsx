@@ -9,6 +9,7 @@ interface TaskListProps {
 }
 
 export const TaskList = ({ tasks, onDelete }: TaskListProps) => {
+
   const renderActions = useCallback(
     (taskItem: ITask) => (
       <DeleteTaskButton taskId={taskItem.id} onDelete={onDelete} />

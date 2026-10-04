@@ -27,4 +27,4 @@ src/
 
 ## Уроки
 
-- [LESSON-2](./LESSON-2.md) — оптимизация: `React.memo`, `useMemo`, `useCallback`
+- [LESSON-3](./LESSON-3.md)
