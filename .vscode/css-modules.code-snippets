@@ -1,0 +1,8 @@
+{
+  "Import CSS module": {
+    "scope": "typescript,typescriptreact",
+    "prefix": ["ims", "styles"],
+    "body": ["import styles from './${1:${TM_FILENAME_BASE}}.module.css';$0"],
+    "description": "import styles from './<ComponentName>.module.css'"
+  }
+}
