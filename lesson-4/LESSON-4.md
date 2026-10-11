@@ -1,6 +1,6 @@
-# LESSON-3 — RTK Query и управление задачами
+# LESSON-4 — Управление формами в React
 
-Ветка: lesson-3
+Ветка: lesson-4
 
 ## Запуск
 
@@ -12,52 +12,43 @@ npm run lint
 
 ## Чеклист
 
-### 1. Создание API-модуля через RTK Query
+### 1. Создание формы регистрации пользователя
 
-- [x] API корректно описан и экспортирует хук `useGetTasksQuery` — 1 балл
-      `src/entities/task/api/tasksApi.ts`, публичный API — `src/entities/task/index.ts`
-- [x] Загрузка задач происходит без ошибок — 1 балл
-      `GET https://jsonplaceholder.typicode.com/todos`
-- [x] Используется `transformResponse` для получения массива — 1 балл
-      `transformDataTasksListResponse` в `src/entities/task/model/utils.ts`
+- [x] Использован React Hook Form — 1 балл
+      `useForm` в `src/features/auth/ui/AuthForm.tsx`
+- [x] Все поля формы обязательны для заполнения — 1 балл
+      `.min(1, 'Обязательное поле')` для каждого поля в `src/features/auth/model/formSchema.ts`
+- [x] Реализована корректная валидация всех полей — 1 балл
+      email — `z.email()`, пароль — минимум 6 символов, совпадение паролей — `.refine` с `path: ['confirmPassword']`
+- [x] Ошибки отображаются рядом с соответствующими полями — 1 балл
+      `errors.<field>.message` под каждым полем + подсветка через `aria-invalid`
 
-### 2. Отображение задач в интерфейсе
+### 2. Подключение yup или zod
 
-- [x] Реализован хук `useTasks`, в котором данные загружаются через `useGetTasksQuery` — 1 балл
-      `src/features/taskList/model/useTasks.ts`
-- [x] Задачи отображаются в интерфейсе — 1 балл
-      `TaskWidget` (`src/widgets/taskList/ui/TaskWidget.tsx`) → `TaskList`
-- [x] Код структурирован и соответствует FSD — 1 балл
-      импорты только сверху вниз, поэтому `RootState`/`AppDispatch` объявлены глобально в `src/app/store/store.ts`,
-      чтобы `src/shared/store/hooks.ts` не импортировал из `app`
+Схема валидации (zod) подключена сразу в шаге 1, ручной валидации в проекте не было.
 
-### 3. Локальное удаление задачи
+- [x] Использована схема валидации вместо ручной логики — 1 балл
+      `registrationSchema` в `src/features/auth/model/formSchema.ts`, подключена через `zodResolver(registrationSchema)` из `@hookform/resolvers`
+- [x] Сообщения об ошибках отображаются корректно рядом с соответствующими полями — 1 балл
+      ошибка несовпадения паролей привязана к полю `confirmPassword`
 
-- [ ] Использован `useEffect` для загрузки данных в `useState` — 1 балл
-      сделано иначе, см. «Отличия от задания»
-- [x] Реализована функция `removeTask` — 1 балл
-      `src/features/taskList/model/useTasks.ts`, без запросов на сервер
-- [x] После удаления задача исчезает из UI — 1 балл
-      `src/features/taskList/ui/DeleteTaskButton.tsx`
+### 3. Динамическое поле: социальные ссылки
 
-### Дополнительно. Общий baseApi + injectEndpoints для tasksApi
+- [ ] Использован `useFieldArray` — 1 балл
+- [ ] Форма корректно обрабатывает массив ссылок — 1 балл
+- [ ] Добавление и удаление работает без ошибок — 1 балл
+- [ ] Каждое поле валидируется как URL — 1 балл
 
-- [x] `baseApi` создан и экспортирован из `shared/api/baseApi.ts`, `tagTypes` включает `Tasks` — 1 балл
-- [x] `tasksApi` использует `injectEndpoints` от `baseApi`; `getTasks` корректно возвращает `Task[]` — 1 балл
-      `src/entities/task/api/tasksApi.ts`
-- [x] В store подключены `baseApi.reducer` и `baseApi.middleware` один раз — 1 балл
-      `src/app/store/store.ts`
+### Дополнительно. Мини-форма в стиле wizard (`useActionState`)
 
-Места использования `useGetTasksQuery` после перехода на `baseApi` не менялись.
+- [ ] Реализована форма с использованием `useActionState` — 1 балл
+- [ ] Сообщения об ошибках или успешной отправке отображаются в UI — 1 балл
 
 ## Отличия от задания (осознанные)
 
-- **Данные не копируются в `useState` через `useEffect`.**
-  Задачи берутся напрямую из кэша RTK Query, а в локальном `useState` хранится список id удалённых задач;
-  `useMemo` отфильтровывает их вместе с фильтром по статусу.
-  - нет лишнего рендера: с `useEffect` после ответа сервера сначала рендерится пустой список, и только следующим рендером — задачи;
-  - нет дублирования данных и риска рассинхрона копии в state с кэшем;
+- Имя пользователя: дополнительно минимум 3 символа.
+- Email проверяется через `z.email()` — строже, чем просто наличие `@` через встроенную проверку input.
 
 ## Не сделано / вопросы
 
-- нет
+- Пункт 3 и дополнительное задание — в работе.
