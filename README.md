@@ -7,7 +7,7 @@
 ## Запуск
 
 ```bash
-cd lesson-1
+cd lesson-N   # lesson-1, lesson-2, ...
 npm ci
 npm run dev
 npm run build
@@ -32,3 +32,4 @@ lesson-N/
 ## Уроки
 
 - [LESSON-1](./lesson-1/LESSON-1.md) — архитектура FSD, сущность Task, виджет списка задач
+- [LESSON-2](./lesson-2/LESSON-2.md) — оптимизация: `React.memo`, `useMemo`, `useCallback`
