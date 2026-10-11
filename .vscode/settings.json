@@ -1,0 +1,26 @@
+{
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+
+  "typescript.preferences.importModuleSpecifier": "shortest",
+
+  "typescript.preferences.autoImportSpecifierExcludeRegexes": [
+    "^~(pages|widgets|features|entities)/[^/]+/.+"
+  ],
+  "typescript.suggest.autoImports": true,
+  "typescript.tsdk": "lesson-3/node_modules/typescript/lib",
+  "eslint.workingDirectories": [{ "pattern": "./lesson-*" }],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "prettier.requireConfig": true,
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports.ts": "explicit",
+    "source.fixAll.eslint": "explicit"
+  }
+}
