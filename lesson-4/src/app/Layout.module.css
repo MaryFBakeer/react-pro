@@ -1,0 +1,28 @@
+.nav {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+
+  padding: 16px;
+}
+
+.link {
+  padding: 8px 14px;
+
+  color: var(--text);
+  font-size: 15px;
+  text-decoration: none;
+
+  border-radius: 10px;
+
+  transition: background-color 0.15s ease;
+}
+
+.link:hover {
+  background: var(--accent-bg);
+}
+
+.active {
+  color: var(--accent);
+  font-weight: 600;
+}

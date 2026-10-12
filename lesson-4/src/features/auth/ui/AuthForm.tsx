@@ -117,7 +117,7 @@ export const AuthForm = () => {
                     id={inputId}
                     type="url"
                     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                    {...register(`socialMedia.${index}`)}
+                    {...register(`socialMedia.${index}.url`)}
                     aria-invalid={Boolean(urlError)}
                     className={styles.input}
                     placeholder="https://github.com/username"
