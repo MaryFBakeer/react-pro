@@ -1,2 +1,6 @@
-export { registrationSchema, defaultValues } from './formSchema';
-export type { RegistrationValues } from './formSchema';
+export {
+  registrationSchema,
+  defaultValues,
+  EMPTY_SOCIAL_LINK,
+} from './formSchema';
+export type { RegistrationValues, SocialLink } from './formSchema';
