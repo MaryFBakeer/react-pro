@@ -1,10 +1,10 @@
-import { ClickTimer, PreviousInput } from '~features/refExamples';
+import { ClickTimer, FocusTracker, PreviousInput } from '~features/refExamples';
 import styles from './RefExamplesPage.module.css';
 
 export const RefExamplesPage = () => (
   <div className={styles.page}>
     <h1 className={styles.title}>useRef примеры</h1>
-
+    <br />
     <div className={styles.card}>
       <h2>ClickTimer</h2>
       <p>Результат смотреть в консоли</p>
@@ -14,6 +14,10 @@ export const RefExamplesPage = () => (
     <div className={styles.card}>
       <h2>PreviousInput</h2>
       <PreviousInput />
+    </div>
+    <div className={styles.card}>
+      <h2>FocusTracker</h2>
+      <FocusTracker />
     </div>
   </div>
 );

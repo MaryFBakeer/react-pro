@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import styles from './ClickTimer.module.css';
+import styles from './refExamples.module.css';
 
 interface ClickData {
   startTime: number | null;
