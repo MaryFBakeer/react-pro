@@ -34,3 +34,4 @@ lesson-N/
 - [LESSON-1](./lesson-1/LESSON-1.md) — архитектура FSD, сущность Task, виджет списка задач
 - [LESSON-2](./lesson-2/LESSON-2.md) — оптимизация: `React.memo`, `useMemo`, `useCallback`
 - [LESSON-3](./lesson-3/LESSON-3.md) — RTK Query и управление задачами
+- [LESSON-4](./lesson-4/LESSON-4.md) — Управление формами в React
