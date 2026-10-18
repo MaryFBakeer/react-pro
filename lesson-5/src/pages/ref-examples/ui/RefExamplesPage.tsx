@@ -1,4 +1,9 @@
-import { ClickTimer, FocusTracker, PreviousInput } from '~features/refExamples';
+import {
+  ClickTimer,
+  DebouncedLogger,
+  FocusTracker,
+  PreviousInput,
+} from '~features/refExamples';
 import styles from './RefExamplesPage.module.css';
 
 export const RefExamplesPage = () => (
@@ -18,6 +23,11 @@ export const RefExamplesPage = () => (
     <div className={styles.card}>
       <h2>FocusTracker</h2>
       <FocusTracker />
+    </div>
+    <div className={styles.card}>
+      <h2>DebouncedLogger</h2>
+      <p>Текст появится в консоли через 1 секунду после ввода</p>
+      <DebouncedLogger />
     </div>
   </div>
 );
