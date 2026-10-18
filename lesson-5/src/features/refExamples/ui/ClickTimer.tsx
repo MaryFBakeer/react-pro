@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import styles from './ClickTimer.module.css';
 
 interface ClickData {
   startTime: number | null;
@@ -32,7 +33,7 @@ export const ClickTimer = () => {
   };
 
   return (
-    <button type="button" onClick={handleClick}>
+    <button type="button" className={styles.button} onClick={handleClick}>
       Кликни
     </button>
   );

@@ -1,12 +1,19 @@
-import { ClickTimer } from '~features/refExamples';
+import { ClickTimer, PreviousInput } from '~features/refExamples';
+import styles from './RefExamplesPage.module.css';
 
 export const RefExamplesPage = () => (
-  <div>
-    <h1>useRef: примеры</h1>
-    <div>
+  <div className={styles.page}>
+    <h1 className={styles.title}>useRef примеры</h1>
+
+    <div className={styles.card}>
       <h2>ClickTimer</h2>
-      <p>Результаты кликов выводятся в консоль.</p>
+      <p>Результат смотреть в консоли</p>
       <ClickTimer />
+    </div>
+
+    <div className={styles.card}>
+      <h2>PreviousInput</h2>
+      <PreviousInput />
     </div>
   </div>
 );
