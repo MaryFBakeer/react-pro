@@ -1,0 +1,44 @@
+.page {
+  padding: 20px;
+}
+
+.card {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px;
+  text-align: left;
+
+  background: var(--code-bg);
+  border: 1px solid var(--accent-bg);
+  border-radius: 10px;
+}
+
+.avatar {
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.name {
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+.error {
+  margin-bottom: 16px;
+  color: #e5484d;
+}
+
+.button {
+  padding: 10px 20px;
+  font: inherit;
+  color: #fff;
+  cursor: pointer;
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+}

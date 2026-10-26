@@ -6,8 +6,6 @@ import { getErrorMessage } from '../lib/getErrorMessage';
 import { useAuth } from '../model/useAuth';
 import styles from './LoginPage.module.css';
 
-// state приходит извне (из ProtectedRoute или из истории браузера),
-// поэтому его форму нужно проверять, а не доверять типу
 function getRedirectPath(state: unknown): string {
   if (
     typeof state === 'object' &&
@@ -24,7 +22,6 @@ function getRedirectPath(state: unknown): string {
   return ROUTES.profile;
 }
 
-// FormData.get возвращает string | File | null — текстовым полям нужна строка
 function getTextField(formData: FormData, name: string): string {
   const value = formData.get(name);
   return typeof value === 'string' ? value : '';
@@ -88,7 +85,10 @@ export function LoginPage() {
 
         {error !== undefined && (
           <p className={styles.error} role="alert">
-            {getErrorMessage(error)}
+            {getErrorMessage(
+              error,
+              'Не удалось выполнить вход, попробуйте ещё раз',
+            )}
           </p>
         )}
 

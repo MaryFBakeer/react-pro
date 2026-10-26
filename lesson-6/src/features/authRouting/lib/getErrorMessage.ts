@@ -19,7 +19,13 @@ const isApiException = (data: unknown): data is ApiException =>
   typeof data.statusCode === 'number' &&
   (typeof data.message === 'string' || Array.isArray(data.message));
 
-export function getErrorMessage(error: unknown): string {
+export const isUnauthorizedError = (error: unknown): boolean =>
+  isHttpError(error) && error.status === 401;
+
+export function getErrorMessage(
+  error: unknown,
+  fallback = 'Что-то пошло не так, попробуйте ещё раз',
+): string {
   if (isHttpError(error)) {
     if (isApiException(error.data)) {
       const { message } = error.data;
@@ -31,5 +37,5 @@ export function getErrorMessage(error: unknown): string {
     }
   }
 
-  return 'Не удалось выполнить вход, попробуйте ещё раз';
+  return fallback;
 }
