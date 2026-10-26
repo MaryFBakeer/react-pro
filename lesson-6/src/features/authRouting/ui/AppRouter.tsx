@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router';
 import { ROUTES } from '~shared/config';
+import { LoginPage } from './LoginPage';
 import { ProtectedRoute } from './ProtectedRoute';
 
 export function AppRouter() {
@@ -9,7 +10,7 @@ export function AppRouter() {
         path={ROUTES.root}
         element={<Navigate to={ROUTES.profile} replace />}
       />
-      <Route path={ROUTES.login} element={<h1>Login</h1>} />
+      <Route path={ROUTES.login} element={<LoginPage />} />
 
       <Route element={<ProtectedRoute />}>
         <Route path={ROUTES.profile} element={<h1>Profile</h1>} />
