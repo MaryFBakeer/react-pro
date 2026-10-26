@@ -17,12 +17,6 @@
   border-radius: 10px;
 }
 
-.avatar {
-  flex-shrink: 0;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
 .name {
   font-weight: 500;
   color: var(--text-h);
@@ -31,6 +25,18 @@
 .error {
   margin-bottom: 16px;
   color: #e5484d;
+}
+
+.actions {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.link {
+  color: var(--accent);
 }
 
 .button {

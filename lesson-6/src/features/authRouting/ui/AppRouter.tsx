@@ -3,6 +3,7 @@ import { ROUTES } from '~shared/config';
 import { LoginPage } from './LoginPage';
 import { ProfilePage } from './ProfilePage';
 import { ProtectedRoute } from './ProtectedRoute';
+import { PublicPage } from './PublicPage';
 
 export function AppRouter() {
   return (
@@ -12,6 +13,7 @@ export function AppRouter() {
         element={<Navigate to={ROUTES.profile} replace />}
       />
       <Route path={ROUTES.login} element={<LoginPage />} />
+      <Route path={ROUTES.public} element={<PublicPage />} />
 
       <Route element={<ProtectedRoute />}>
         <Route path={ROUTES.profile} element={<ProfilePage />} />

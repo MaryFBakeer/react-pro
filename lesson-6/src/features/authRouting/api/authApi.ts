@@ -20,7 +20,6 @@ export interface User {
   email: string;
   name: string;
   about?: string;
-  avatarPath?: string;
 }
 
 const BEARER_PREFIX = /^Bearer\s+/i;

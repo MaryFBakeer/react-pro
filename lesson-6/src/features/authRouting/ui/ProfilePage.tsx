@@ -1,5 +1,9 @@
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router';
+import { baseApi } from '~shared/api';
+import { ROUTES } from '~shared/config';
+import { useAppDispatch } from '~shared/store';
 import { useGetMeQuery } from '../api/authApi';
 import { getErrorMessage, isUnauthorizedError } from '../lib/getErrorMessage';
 import { useAuth } from '../model/useAuth';
@@ -7,8 +11,9 @@ import styles from './ProfilePage.module.css';
 
 export function ProfilePage() {
   const { token, signOut } = useAuth();
-  // ProtectedRoute не пускает сюда без токена, но skipToken страхует
-  // от запроса с пустым заголовком в момент выхода
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const {
     data: user,
     error,
@@ -18,12 +23,17 @@ export function ProfilePage() {
 
   const isUnauthorized = isUnauthorizedError(error);
 
-  // Токен истёк или отозван — сбрасываем его, и ProtectedRoute уведёт на /login
   useEffect(() => {
     if (isUnauthorized) {
       signOut();
     }
   }, [isUnauthorized, signOut]);
+
+  const handleLogout = () => {
+    signOut();
+    dispatch(baseApi.util.resetApiState());
+    void navigate(ROUTES.login, { replace: true });
+  };
 
   if (isLoading) {
     return (
@@ -55,23 +65,21 @@ export function ProfilePage() {
       <h1>Привет, {user.name}!</h1>
 
       <section className={styles.card}>
-        {user.avatarPath !== undefined && (
-          <img
-            className={styles.avatar}
-            src={user.avatarPath}
-            alt={`Аватар пользователя ${user.name}`}
-            width={96}
-            height={96}
-            loading="lazy"
-            decoding="async"
-          />
-        )}
         <div>
           <p className={styles.name}>{user.name}</p>
           <p>{user.email}</p>
           {user.about !== undefined && <p>{user.about}</p>}
         </div>
       </section>
+
+      <div className={styles.actions}>
+        <Link className={styles.link} to={ROUTES.public}>
+          Публичная страница
+        </Link>
+        <button className={styles.button} type="button" onClick={handleLogout}>
+          Выйти
+        </button>
+      </div>
     </main>
   );
 }
