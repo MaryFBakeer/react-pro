@@ -7,7 +7,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "tsx configs/esbuild.app.config.ts --mode=dev",
+    "dev": "npm run clean && tsx configs/esbuild.app.config.ts --mode=dev",
     "build": "npm run clean && tsc -b && npm run build:app && npm run build:lib",
     "lint": "eslint .",
     "format": "prettier --write --ignore-path ../.gitignore .",

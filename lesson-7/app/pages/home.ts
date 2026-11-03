@@ -1,1 +1,1 @@
-export const render = (): string => 'home';
+export const render = (): string => 'Главная страница';

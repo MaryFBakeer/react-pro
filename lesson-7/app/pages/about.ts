@@ -1,1 +1,1 @@
-export const render = (): string => 'about';
+export const render = (): string => 'О проекте';

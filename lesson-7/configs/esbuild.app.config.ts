@@ -1,4 +1,4 @@
-import { build, type BuildOptions } from 'esbuild';
+import { build, context, type BuildOptions } from 'esbuild';
 
 const MODES = ['dev', 'prod'] as const;
 type BuildMode = (typeof MODES)[number];
@@ -18,17 +18,34 @@ const baseOptions: BuildOptions = {
   entryPoints: { app: 'app/index.ts' },
   outdir: 'dist',
   bundle: true,
+  splitting: true,
   format: 'esm',
+  chunkNames: 'chunks/[name]-[hash]',
   platform: 'browser',
   target: 'es2022',
   logLevel: 'info',
 };
 
 const modeOptions: Record<BuildMode, BuildOptions> = {
-  dev: {},
-  prod: {},
+  dev: {
+    minify: false,
+    sourcemap: true,
+  },
+  prod: {
+    minify: true,
+    sourcemap: true,
+    treeShaking: true,
+  },
 };
 
 const options: BuildOptions = { ...baseOptions, ...modeOptions[modeArg] };
 
-await build(options);
+if (modeArg === 'dev') {
+  const ctx = await context(options);
+  await ctx.watch();
+
+  const { port } = await ctx.serve({ servedir: '.', host: '127.0.0.1' });
+  console.log(`Dev-сервер: http://127.0.0.1:${String(port)}`);
+} else {
+  await build(options);
+}
