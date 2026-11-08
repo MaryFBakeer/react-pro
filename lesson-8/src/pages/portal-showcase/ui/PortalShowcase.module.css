@@ -1,5 +1,19 @@
 .page {
   padding: 20px;
+  flex: 1;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.themeButton {
+  margin-bottom: 20px;
+  padding: 10px 16px;
+  font: inherit;
+  color: var(--text-h);
+  background: var(--code-bg);
+  border: 1px solid var(--accent-bg);
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .card {

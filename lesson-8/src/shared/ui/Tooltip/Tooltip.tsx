@@ -1,5 +1,6 @@
 import { useId, useState, type ReactNode, type SyntheticEvent } from 'react';
 import { createPortal } from 'react-dom';
+import { useTheme, themeStyles } from '~shared/lib/theme';
 import type { TooltipPosition } from './TooltipPosition';
 import { getCoordinates, type Coordinates } from './lib/getCoordinates';
 import styles from './Tooltip.module.css';
@@ -11,6 +12,7 @@ interface TooltipProps {
 }
 
 export const Tooltip = ({ children, content, position }: TooltipProps) => {
+  const theme = useTheme();
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
 
   const tooltipId = useId();
@@ -41,7 +43,7 @@ export const Tooltip = ({ children, content, position }: TooltipProps) => {
           <span
             id={tooltipId}
             role="tooltip"
-            className={`${styles.tooltip} ${styles[position]}`}
+            className={`${styles.tooltip} ${styles[position]} ${themeStyles[theme]}`}
             style={coordinates}
           >
             {content}

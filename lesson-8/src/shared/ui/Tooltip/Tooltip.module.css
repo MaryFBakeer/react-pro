@@ -8,8 +8,10 @@
   max-width: 240px;
   padding: 8px 12px;
   border-radius: 6px;
-  background: #25212b;
-  color: #fff;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-text);
+  border: 1px solid var(--accent-bg);
+  box-shadow: var(--shadow);
   font-size: 14px;
   line-height: 1.4;
   font-family: system-ui, sans-serif;
