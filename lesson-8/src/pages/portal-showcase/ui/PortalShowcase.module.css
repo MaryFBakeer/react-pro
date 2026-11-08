@@ -1,0 +1,17 @@
+.page {
+  padding: 20px;
+}
+
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px;
+  background: var(--code-bg);
+  border: 1px solid var(--accent-bg);
+  border-radius: 10px;
+}

@@ -1,10 +1,10 @@
 import { BrowserRouter } from 'react-router';
-import { TooltipDemo } from '~widgets/tooltip-demo';
+import { PortalShowcase } from '~pages/portal-showcase';
 
 const App = () => {
   return (
     <BrowserRouter>
-      <TooltipDemo />
+      <PortalShowcase />
     </BrowserRouter>
   );
 };
