@@ -1,3 +1,4 @@
+import { Button } from '~shared/ui/Button';
 import s from './ProfilePage.module.css';
 import classNames from 'classnames';
 import { ButtonBack } from '~shared/ui/ButtonBack';
@@ -54,15 +55,13 @@ export const ProfilePage = WithProtection(() => {
 					</label>
 				</div>
 
-				<button
+				<Button
 					type='submit'
-					className={classNames(
-						s['form__btn'],
-						s['secondary'],
-						s['maxContent']
-					)}>
+					variant='secondary'
+					size='large'
+					className={s['form__btn']}>
 					Сохранить
-				</button>
+				</Button>
 			</form>
 			<h2 className={s['form__title']}>Изменить пароль</h2>
 			<form className={classNames(s['form'], s['form'])}>
@@ -78,15 +77,13 @@ export const ProfilePage = WithProtection(() => {
 						/>
 					</label>
 				</div>
-				<button
+				<Button
 					type='submit'
-					className={classNames(
-						s['form__btn'],
-						s['secondary'],
-						s['maxContent']
-					)}>
+					variant='secondary'
+					size='large'
+					className={s['form__btn']}>
 					Сохранить
-				</button>
+				</Button>
 			</form>
 		</>
 	);

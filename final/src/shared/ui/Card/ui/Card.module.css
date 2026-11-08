@@ -103,28 +103,6 @@
 	text-decoration: none;
 }
 
-.card__btn {
-	display: inline-block;
-	padding: 10px 18px;
-	color: currentcolor;
-	font-weight: 700;
-	font-size: 16px;
-	line-height: 20px;
-	text-decoration: none;
-	border: none;
-	border-radius: 55px;
-	transition: background-color 0.3s;
-}
-
-.card__btn_type_primary {
-	background-color: #ffe44d;
-}
-
-.card__btn_type_primary:hover {
-	color: #f44336;
-	background-color: #ffaa0d;
-}
-
 .tag {
 	padding: 2px 8px;
 	font-weight: 800;

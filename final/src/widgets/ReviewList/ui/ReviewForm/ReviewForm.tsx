@@ -1,3 +1,4 @@
+import { Button } from '~shared/ui/Button';
 import { useState, ChangeEvent } from 'react';
 import classNames from 'classnames';
 import s from './ReviewForm.module.css';
@@ -25,12 +26,13 @@ export const ReviewForm = () => {
 				placeholder='Напишите текст отзыва'
 				value={reviewText}
 				onChange={handleChange}></textarea>
-			<button
+			<Button
 				type='submit'
-				className={classNames(s['form__btn'], s['pramary'])}
+				size='large'
+				className={s['form__btn']}
 				onClick={handleClick}>
 				Отправить отзыв
-			</button>
+			</Button>
 		</form>
 	);
 };

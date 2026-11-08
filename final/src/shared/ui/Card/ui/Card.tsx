@@ -1,3 +1,4 @@
+import { Button } from '~shared/ui/Button';
 import classNames from 'classnames';
 import s from './Card.module.css';
 import { Price } from './Price/ui/Price';
@@ -54,16 +55,13 @@ export const Card = ({ product }: CardProps) => {
 			{isProductInCart ? (
 				<CartCounter productId={id} />
 			) : (
-				<button
+				<Button
+					size='small'
 					onClick={() => addProductToCart({ ...product, count: 1 })}
 					disabled={isProductInCart}
-					className={classNames(
-						s['card__cart'],
-						s['card__btn'],
-						s['card__btn_type_primary']
-					)}>
+					className={s['card__cart']}>
 					В корзину
-				</button>
+				</Button>
 			)}
 		</article>
 	);

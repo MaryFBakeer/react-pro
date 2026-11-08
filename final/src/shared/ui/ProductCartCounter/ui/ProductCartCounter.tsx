@@ -1,3 +1,4 @@
+import { Button } from '~shared/ui/Button';
 import s from './ProductCartCounter.module.css';
 import classNames from 'classnames';
 import { useCount } from '../hooks/useCount';
@@ -26,11 +27,9 @@ export const ProductCartCounter = ({ product }: ProductCartCounterProps) => {
 					+
 				</button>
 			</div>
-			<button
-				onClick={() => addProductToCart({ ...product, count })}
-				className={classNames(s['button'], s['button_type_primary'])}>
+			<Button onClick={() => addProductToCart({ ...product, count })}>
 				В корзину
-			</button>
+			</Button>
 		</div>
 	);
 };
