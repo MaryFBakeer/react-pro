@@ -1,13 +1,15 @@
 import { BrowserRouter } from 'react-router';
-import { FormWithAsyncSave } from '~features/react19Examples';
+import { FormWithSave, TodoListOptimistic } from '~features/react19Examples';
 import styles from './App.module.css';
 
 function App() {
   return (
     <BrowserRouter>
       <main className={styles.page}>
-        <h1 className={styles.title}>Форма с асинхронным сохранением</h1>
-        <FormWithAsyncSave />
+        <p className={styles.sectionTitle}>Задание 1</p>
+        <FormWithSave />
+        <p className={styles.sectionTitle}>Задание 2</p>
+        <TodoListOptimistic />
       </main>
     </BrowserRouter>
   );

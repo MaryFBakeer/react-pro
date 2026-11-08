@@ -1,24 +1,34 @@
 import { startTransition, useActionState, useEffect } from 'react';
-import styles from './FormWithAsyncSave.module.css';
+import styles from './SaveForm.module.css';
 
 type SaveState = 'idle' | 'success';
 
 const initialState: SaveState = 'idle';
 
-async function saveForm(
-  _previousState: SaveState,
-  formData: FormData | null,
-): Promise<SaveState> {
-  if (formData === null) {
-    return initialState;
-  }
+type SaveFormProps = {
+  onSave: (formData: FormData) => Promise<void>;
+  label?: string;
+  submitText?: string;
+};
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+export const SaveForm = ({
+  onSave,
+  label = 'Текст для сохранения',
+  submitText = 'Сохранить',
+}: SaveFormProps) => {
+  const saveForm = async (
+    _previousState: SaveState,
+    formData: FormData | null,
+  ): Promise<SaveState> => {
+    if (formData === null) {
+      return initialState;
+    }
 
-  return 'success';
-}
+    await onSave(formData);
 
-export const FormWithAsyncSave = () => {
+    return 'success';
+  };
+
   const [state, submit, isPending] = useActionState(saveForm, initialState);
 
   useEffect(() => {
@@ -36,12 +46,12 @@ export const FormWithAsyncSave = () => {
     ? 'Saving…'
     : state === 'success'
       ? 'Saved!'
-      : 'Сохранить';
+      : submitText;
 
   return (
     <form action={submit} className={styles.form}>
       <label className={styles.field}>
-        Текст для сохранения
+        {label}
         <input
           className={styles.input}
           type="text"
