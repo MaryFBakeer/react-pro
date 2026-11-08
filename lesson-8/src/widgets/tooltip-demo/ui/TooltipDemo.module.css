@@ -1,9 +1,49 @@
 .demo {
-  padding: 24px;
+  padding: 20px;
 }
 
-.parent {
-  padding: 16px;
-  color: #4d1368;
-  font-size: 24px;
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px;
+  background: var(--code-bg);
+  border: 1px solid var(--accent-bg);
+  border-radius: 10px;
+}
+
+.parent,
+.button {
+  padding: 12px 16px;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--accent);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    filter 0.15s ease,
+    transform 0.1s ease;
+}
+
+.parent:hover,
+.button:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.parent:active,
+.button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.parent:focus-visible,
+.button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }

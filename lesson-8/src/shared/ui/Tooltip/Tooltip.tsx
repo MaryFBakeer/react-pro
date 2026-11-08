@@ -12,7 +12,7 @@ interface TooltipProps {
 
 export const Tooltip = ({ children, content, position }: TooltipProps) => {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
-  
+
   const tooltipId = useId();
   const tooltipRoot = document.getElementById('tooltip-root');
 
