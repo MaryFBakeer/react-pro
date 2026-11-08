@@ -12,8 +12,14 @@
   color: #fff;
   font-size: 14px;
   line-height: 1.4;
+  font-family: system-ui, sans-serif;
+  font-style: normal;
   width: max-content;
   box-sizing: border-box;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align: left;
   pointer-events: none;
 }
 
