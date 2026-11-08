@@ -1,5 +1,5 @@
 import { Button } from '~shared/ui/Button';
-import s from './ProductCartCounter.module.css';
+import { Counter } from '~shared/ui/Counter';
 import classNames from 'classnames';
 import { useCount } from '../hooks/useCount';
 import { useAddToCart } from '~shared/hooks/useAddToCart';
@@ -13,20 +13,12 @@ export const ProductCartCounter = ({ product }: ProductCartCounterProps) => {
 
 	return (
 		<div className={classNames('product__btn-wrap')}>
-			<div className={s['button-count']}>
-				<button className={s['button-count__minus']} onClick={handleCountMinus}>
-					-
-				</button>
-				<input
-					type='number'
-					className={s['button-count__num']}
-					value={count}
-					onChange={handleCount}
-				/>
-				<button className={s['button-count__plus']} onClick={handleCountPlus}>
-					+
-				</button>
-			</div>
+			<Counter
+				value={count}
+				onChange={handleCount}
+				onIncrement={handleCountPlus}
+				onDecrement={handleCountMinus}
+			/>
 			<Button onClick={() => addProductToCart({ ...product, count })}>
 				В корзину
 			</Button>
