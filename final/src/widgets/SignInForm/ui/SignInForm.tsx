@@ -17,9 +17,9 @@ import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { SignInFormValues } from '../utils/types';
 import { signInFormSchema } from '../utils/validator';
-import { useSignInMutation } from '../../../shared/store/api/authApi';
-import { userActions } from '../../../shared/store/slices/user';
-import { getMessageFromError } from '../../../shared/utils';
+import { useSignInMutation } from '~shared/store/api/authApi';
+import { userActions } from '~shared/store/slices/user';
+import { getMessageFromError } from '~shared/utils';
 
 export const SignInForm: FC = () => {
 	const dispatch = useDispatch();

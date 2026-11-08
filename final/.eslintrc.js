@@ -6,6 +6,11 @@ module.exports = {
 		warnOnUnsupportedTypeScriptVersion: false,
 	},
 	settings: {
+		'import/resolver': {
+			typescript: {
+				project: require('path').resolve(__dirname, 'tsconfig.json'),
+			},
+		},
 		react: {
 			version: 'detect',
 		},
