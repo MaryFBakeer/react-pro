@@ -1,5 +1,9 @@
 import { BrowserRouter } from 'react-router';
-import { FormWithSave, TodoListOptimistic } from '~features/react19Examples';
+import {
+  ActionStateWithReducer,
+  FormWithSave,
+  TodoListOptimistic,
+} from '~features/react19Examples';
 import styles from './App.module.css';
 
 function App() {
@@ -10,6 +14,8 @@ function App() {
         <FormWithSave />
         <p className={styles.sectionTitle}>Задание 2</p>
         <TodoListOptimistic />
+        <p className={styles.sectionTitle}>Задание 3</p>
+        <ActionStateWithReducer />
       </main>
     </BrowserRouter>
   );
