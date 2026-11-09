@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import s from './Header.module.css';
 import { Logo } from '~shared/ui/Logo';
-import { Search } from '~shared/ui/Search';
-import { Link } from 'react-router-dom';
+import { Search } from '~features/search';
+import { Link, useMatch } from 'react-router-dom';
 import { useAppSelector } from '~shared/store/utils';
 import { userSelectors } from '~shared/store/slices/user';
 import { isLiked } from '~shared/utils';
@@ -11,6 +11,7 @@ import { cartSelectors } from '~shared/store/slices/cart';
 import { SignOutButton } from '~features/auth';
 
 export const Header = () => {
+	const isCatalog = useMatch('/') !== null;
 	const { products } = useProducts();
 	const user = useAppSelector(userSelectors.getUser);
 	const cartProducts = useAppSelector(cartSelectors.getCartProducts);
@@ -25,7 +26,9 @@ export const Header = () => {
 		<header className={s.header}>
 			<div className={classNames('container', s.header__wrapper)}>
 				<Logo />
-				<Search />
+				<div style={{ display: isCatalog ? 'contents' : 'none' }}>
+					<Search />
+				</div>
 				<div className={s['header__icons-menu']}>
 					<Link className={s['header__favorites-link']} to='/favorites'>
 						<svg

@@ -1,6 +1,6 @@
 import s from './Search.module.css';
 import { Input } from '~shared/ui/Input';
-import { useProductsSearchForm } from '../hooks/usePostsSearchForm';
+import { useProductsSearchForm } from '../model/useProductsSearchForm';
 
 export const Search = () => {
 	const { searchValue, setSearchValue } = useProductsSearchForm();

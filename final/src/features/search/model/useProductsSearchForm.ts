@@ -6,10 +6,6 @@ import { productsActions } from '~shared/store/slices/products';
 
 const QUERY_SEARCH_PHRASE = 'q';
 
-export interface UseProductsSearchFormParams {
-	setProductsSearchFilter: (newFilter: string) => void;
-}
-
 export const useProductsSearchForm = () => {
 	const dispatch = useAppDispatch();
 
