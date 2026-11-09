@@ -1,4 +1,5 @@
 import s from './Search.module.css';
+import { Input } from '~shared/ui/Input';
 import { useProductsSearchForm } from '../hooks/usePostsSearchForm';
 
 export const Search = () => {
@@ -10,7 +11,8 @@ export const Search = () => {
 
 	return (
 		<form className={s['search']}>
-			<input
+			<Input
+				variant='rounded'
 				type='text'
 				className={s['search__input']}
 				placeholder='Поиск'

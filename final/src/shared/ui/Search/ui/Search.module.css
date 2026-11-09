@@ -6,24 +6,7 @@
 }
 
 .search__input {
-	width: 100%;
-	padding: 13px 60px 13px 20px;
-	color: #000000;
-	font-size: 16px;
-	line-height: 20px;
-	border: 1px solid transparent;
-	border-radius: 24px;
-	outline: none;
-	caret-color: #feba0c;
-}
-
-.search__input:focus {
-	background: #ffffff;
-	border: 1px solid #fed700;
-}
-
-.search__input::placeholder {
-	color: #7b8e98;
+	--input-padding-right: 60px;
 }
 
 .search__btn {

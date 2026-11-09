@@ -1,0 +1,35 @@
+.input {
+	box-sizing: border-box;
+	width: 100%;
+	background-color: #ffffff;
+	border: 1px solid #cfd8dc;
+}
+
+.input:focus {
+	border-color: #ffe44d;
+	outline: none;
+}
+
+.default {
+	height: 48px;
+	padding: 7px 16px;
+	border-radius: 12px;
+}
+
+.rounded {
+	padding: 13px var(--input-padding-right, 20px) 13px 20px;
+	color: #000000;
+	font-size: 16px;
+	line-height: 20px;
+	border-color: transparent;
+	border-radius: 24px;
+	caret-color: #feba0c;
+}
+
+.rounded:focus {
+	border-color: #fed700;
+}
+
+.rounded::placeholder {
+	color: #7b8e98;
+}
