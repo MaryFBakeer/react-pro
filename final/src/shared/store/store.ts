@@ -3,9 +3,11 @@ import AppApi from '~shared/api/ApiServise';
 import { rootReducer } from './reducers/rootReducer';
 import { authApi } from './api/authApi';
 import { productsApi } from './api/productsApi';
+import { loadUserSession } from './userSession';
 
 export const store = configureStore({
 	reducer: rootReducer,
+	preloadedState: { user: loadUserSession() },
 	devTools: process.env.NODE_ENV !== 'production',
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({

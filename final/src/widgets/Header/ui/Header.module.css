@@ -79,6 +79,13 @@
 	fill: currentcolor;
 }
 
+.sign-out {
+	padding: 0;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+}
+
 .header__wraper {
 	display: grid;
 	grid-template-columns: auto auto;

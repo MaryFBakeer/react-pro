@@ -14,14 +14,12 @@ export const userSlice = createSlice({
 	name: 'user',
 	initialState: createInitState(),
 	reducers: {
-		setAccessToken(state, action: PayloadAction<Pick<Token, 'accessToken'>>) {
-			state.accessToken = action.payload.accessToken;
+		setSession(_state, action: PayloadAction<UserState>) {
+			const { user, accessToken } = action.payload;
+			return { user, accessToken };
 		},
 		clearUser() {
 			return createInitState();
-		},
-		setUser: (state, action: PayloadAction<UserState['user']>) => {
-			state.user = action.payload;
 		},
 	},
 	selectors: {

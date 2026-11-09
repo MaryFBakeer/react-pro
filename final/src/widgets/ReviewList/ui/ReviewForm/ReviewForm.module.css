@@ -50,5 +50,6 @@ input:focus {
 
 .form__btn {
 	width: 356px;
+	max-width: 100%;
 	margin: 8px 0;
 }

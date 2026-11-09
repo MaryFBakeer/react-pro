@@ -11,8 +11,12 @@ export const App = () => {
 	return (
 		<>
 			<Header />
-			<Sort />
-			<Outlet />
+			<main className='main container'>
+				<div className='content__sort'>
+					<Sort />
+				</div>
+				<Outlet />
+			</main>
 			<ToastContainer
 				position='top-right'
 				autoClose={5000}

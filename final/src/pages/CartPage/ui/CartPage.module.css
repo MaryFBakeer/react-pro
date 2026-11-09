@@ -2,20 +2,20 @@
 	padding: 20px 0;
 }
 
-.container {
-	width: 95%;
-	max-width: 1024px;
-	margin: 0 auto;
-	padding-right: 16px;
-	padding-left: 16px;
-}
-
 .content-cart {
 	display: grid;
 	grid-template-columns: 2fr 1fr;
 	grid-template-areas: 'info info' 'list amount';
 	align-items: flex-start;
 	column-gap: 60px;
+}
+
+@media (width <= 700px) {
+	.content-cart {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-areas: 'info' 'list' 'amount';
+		row-gap: 16px;
+	}
 }
 
 .cart-title {
@@ -128,7 +128,7 @@ input[type='number']:focus {
 	left: 0;
 	display: block;
 	font-weight: 600;
-	font-size: 0.875em;
+	font-size: 87.5%;
 	line-height: 1.42;
 	text-decoration: line-through;
 }
