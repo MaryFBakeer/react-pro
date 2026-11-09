@@ -5,9 +5,8 @@ import {
 } from '~shared/store/slices/products';
 
 interface SortParams {
-	title: string;
+	label: string;
 	value: Sort;
-	href: string;
 }
 export const useSort = () => {
 	const dispatch = useAppDispatch();
@@ -20,24 +19,20 @@ export const useSort = () => {
 
 	const sortParams: SortParams[] = [
 		{
-			title: 'Дешевые',
+			label: 'Дешевые',
 			value: 'low-price',
-			href: '#',
 		},
 		{
-			title: 'Дорогие',
+			label: 'Дорогие',
 			value: 'high-price',
-			href: '#',
 		},
 		{
-			title: 'Новые',
+			label: 'Новые',
 			value: 'newest',
-			href: '#',
 		},
 		{
-			title: 'Старые',
+			label: 'Старые',
 			value: 'oldest',
-			href: '#',
 		},
 	];
 	return { sort, setSort, sortParams };
