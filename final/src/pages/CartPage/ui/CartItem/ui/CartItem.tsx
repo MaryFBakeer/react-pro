@@ -4,7 +4,7 @@ import s from '../../CartPage.module.css';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
 import { cartActions } from '~shared/store/slices/cart';
-import { CartCounter } from '~shared/ui/CartCounter';
+import { CartCounter } from '~features/cart';
 
 type CartItemProps = {
 	product: CartProduct;

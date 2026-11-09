@@ -9,10 +9,9 @@ import { LikeButton } from '~shared/ui/LikeButton';
 import { ReviewList } from '~widgets/ReviewList';
 import { WithProtection } from '~shared/store/HOCs/WithProtection';
 import { useGetProductQuery } from '~shared/store/api/productsApi';
-import { ProductCartCounter } from '~shared/ui/ProductCartCounter';
+import { CartCounter, ProductCartCounter } from '~features/cart';
 import { useAppSelector } from '~shared/store/utils';
 import { cartSelectors } from '~shared/store/slices/cart';
-import { CartCounter } from '~shared/ui/CartCounter';
 
 export const ProductPage = WithProtection(() => {
 	const location = useLocation();

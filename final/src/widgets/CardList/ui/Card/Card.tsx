@@ -1,13 +1,12 @@
 import { Button } from '~shared/ui/Button';
 import classNames from 'classnames';
 import s from './Card.module.css';
-import { Price } from './Price/ui/Price';
+import { Price } from './Price';
 import { Link } from 'react-router-dom';
 import { LikeButton } from '~shared/ui/LikeButton';
 import { useAppSelector } from '~shared/store/utils';
 import { cartSelectors } from '~shared/store/slices/cart';
-import { useAddToCart } from '~shared/hooks/useAddToCart';
-import { CartCounter } from '~shared/ui/CartCounter';
+import { CartCounter, useAddToCart } from '~features/cart';
 
 type CardProps = {
 	product: Product;

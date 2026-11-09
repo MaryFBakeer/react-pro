@@ -2,7 +2,7 @@ import { Button } from '~shared/ui/Button';
 import { Counter } from '~shared/ui/Counter';
 import classNames from 'classnames';
 import { useCount } from '../hooks/useCount';
-import { useAddToCart } from '~shared/hooks/useAddToCart';
+import { useAddToCart } from '../../model/useAddToCart';
 
 type ProductCartCounterProps = {
 	product: Product;
