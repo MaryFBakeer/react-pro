@@ -2,14 +2,17 @@ import classNames from 'classnames';
 import s from './ReviewList.module.css';
 import { Rating } from '~shared/ui/Rating';
 import { ReviewForm } from './ReviewForm/ReviewForm';
+import { useLocalReviews } from '~features/reviews';
 
 type ReviewListProps = {
 	product: Product;
 };
 export const ReviewList = ({ product }: ReviewListProps) => {
+	const { reviews, addReview } = useLocalReviews();
+
 	return (
 		<div className={classNames(s['product__reviews'])}>
-			{product.reviews.map((review) => (
+			{[...product.reviews, ...reviews].map((review) => (
 				<div className={s['review']} key={review.id}>
 					<div className={s['review__header']}>
 						<div className={s['review__name']}>{review.user.name}</div>
@@ -23,7 +26,7 @@ export const ReviewList = ({ product }: ReviewListProps) => {
 			))}
 
 			<h2>Отзыв о товаре {product.name}</h2>
-			<ReviewForm />
+			<ReviewForm onSubmit={addReview} />
 		</div>
 	);
 };

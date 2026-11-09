@@ -1,5 +1,5 @@
 import s from './ProductPage.module.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import truckSVG from '~shared/assets/icons/truck.svg';
 import qualitySVG from '~shared/assets/icons/quality.svg';
@@ -15,6 +15,13 @@ import { cartSelectors } from '~shared/store/slices/cart';
 
 export const ProductPage = WithProtection(() => {
 	const location = useLocation();
+	const navigate = useNavigate();
+	const navigationState: unknown = location.state;
+	const from =
+		typeof navigationState === 'string' &&
+		/^(\/|\/favorites|\/cart)([?#]|$)/.test(navigationState)
+			? navigationState
+			: '/';
 	const { pathname } = location;
 	const productId = pathname.split('/').at(-1) || '';
 
@@ -32,7 +39,7 @@ export const ProductPage = WithProtection(() => {
 
 	return (
 		<>
-			<ButtonBack />
+			<ButtonBack onClick={() => navigate(from, { replace: true })} />
 			<h1 className={classNames(s['header-title'])}>{name}</h1>
 			<p className='acticul'>
 				Артикул: <b>2388907</b>
@@ -124,7 +131,7 @@ export const ProductPage = WithProtection(() => {
 					</div>
 				</div>
 			</div>
-			<ReviewList product={product} />
+			<ReviewList key={product.id} product={product} />
 		</>
 	);
 });

@@ -1,23 +1,42 @@
 import { Button } from '~shared/ui/Button';
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import classNames from 'classnames';
 import s from './ReviewForm.module.css';
 import { Rating } from '~shared/ui/Rating';
+import { toast } from 'react-toastify';
 
-export const ReviewForm = () => {
+type ReviewFormProps = {
+	onSubmit: (review: Pick<Review, 'text' | 'rating'>) => void;
+};
+
+export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
 	const [reviewText, setReviewText] = useState('');
 	const [rating, setRating] = useState(0);
+	const text = reviewText.trim();
 
 	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		setReviewText(e.target.value);
 	};
 
-	const handleClick = () => {
-		console.log('Отправка: ', { reviewText, rating });
+	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		if (!text || rating === 0) {
+			return;
+		}
+
+		try {
+			onSubmit({ text, rating });
+			setReviewText('');
+			setRating(0);
+			toast.success('Отзыв отправлен');
+		} catch {
+			toast.error('Не удалось отправить отзыв. Попробуйте ещё раз.');
+		}
 	};
 
 	return (
-		<form className={s['form']}>
+		<form className={s['form']} onSubmit={handleSubmit}>
 			<Rating isEdit rating={rating} onChange={setRating} />
 			<textarea
 				className={classNames(s['input'], s['textarea'])}
@@ -30,7 +49,7 @@ export const ReviewForm = () => {
 				type='submit'
 				size='large'
 				className={s['form__btn']}
-				onClick={handleClick}>
+				disabled={!text || rating === 0}>
 				Отправить отзыв
 			</Button>
 		</form>

@@ -8,11 +8,11 @@ type TRating = {
 export const Rating = ({ rating = 0, isEdit = false, onChange }: TRating) => {
 	return (
 		<div>
-			{[...Array(5)].map((_e, i) => (
-				<span key={i} style={{ cursor: isEdit ? 'pointer' : 'default' }}>
+			{[1, 2, 3, 4, 5].map((value) => (
+				<span key={value} style={{ cursor: isEdit ? 'pointer' : 'default' }}>
 					<Star
-						onClick={() => onChange?.(i)}
-						fill={i <= rating ? 'gold' : 'gray'}
+						onClick={isEdit ? () => onChange?.(value) : undefined}
+						fill={value <= rating ? 'gold' : 'gray'}
 					/>
 				</span>
 			))}

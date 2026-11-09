@@ -2,7 +2,7 @@ import { Button } from '~shared/ui/Button';
 import classNames from 'classnames';
 import s from './Card.module.css';
 import { Price } from './Price';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { LikeButton } from '~shared/ui/LikeButton';
 import { useAppSelector } from '~shared/store/utils';
 import { cartSelectors } from '~shared/store/slices/cart';
@@ -12,6 +12,7 @@ type CardProps = {
 	product: Product;
 };
 export const Card = ({ product }: CardProps) => {
+	const { pathname, search, hash } = useLocation();
 	const { discount, price, name, tags, id, images } = product;
 	const cartProducts = useAppSelector(cartSelectors.getCartProducts);
 	const isProductInCart = cartProducts.some((p) => p.id === id);
@@ -39,7 +40,10 @@ export const Card = ({ product }: CardProps) => {
 				)}>
 				<LikeButton product={product} />
 			</div>
-			<Link className={s['card__link']} to={`/products/${id}`}>
+			<Link
+				className={s['card__link']}
+				to={`/products/${id}`}
+				state={pathname + search + hash}>
 				<img
 					src={images}
 					alt={name}

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Input } from '~shared/ui/Input';
 import { Button } from '~shared/ui/Button';
 import s from './ProfilePage.module.css';
@@ -6,9 +7,11 @@ import { ButtonBack } from '~shared/ui/ButtonBack';
 import { WithProtection } from '~shared/store/HOCs/WithProtection';
 
 export const ProfilePage = WithProtection(() => {
+	const navigate = useNavigate();
+
 	return (
 		<>
-			<ButtonBack />
+			<ButtonBack onClick={() => navigate(-1)} />
 			<h1 className={s['form__title']}>Мои данные</h1>
 			<form className={classNames(s['form'], s['form'])}>
 				<div className={s['form__row']}>

@@ -1,5 +1,5 @@
 import { ReactComponent as TrashIcon } from '~shared/assets/icons/trash.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import s from '../../CartPage.module.css';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
@@ -10,6 +10,7 @@ type CartItemProps = {
 	product: CartProduct;
 };
 export const CartItem = ({ product }: CartItemProps) => {
+	const { pathname, search, hash } = useLocation();
 	const dispatch = useDispatch();
 	const { id, name, images, price, discount } = product;
 
@@ -29,7 +30,8 @@ export const CartItem = ({ product }: CartItemProps) => {
 					<div style={{ display: 'flex', gap: '20px', flexGrow: 1 }}>
 						<Link
 							className={classNames(s['cart-item__title'])}
-							to={`/products/${id}`}>
+							to={`/products/${id}`}
+							state={pathname + search + hash}>
 							<h2>{name}</h2>
 						</Link>
 
