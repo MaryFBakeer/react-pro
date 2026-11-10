@@ -20,32 +20,32 @@ export const Footer = () => {
 					</div>
 					<div className={s['footer__col']}>
 						<nav className={s['menu-bottom']}>
-							<a href='/catalogue' className={s['menu-bottom__item']}>
+							<a href='/' className={s['menu-bottom__item']}>
 								Каталог
 							</a>
-							<a href='/catalogue' className={s['menu-bottom__item']}>
+							<a href='/' className={s['menu-bottom__item']}>
 								Акции
 							</a>
-							<a href='/catalogue' className={s['menu-bottom__item']}>
+							<a href='/' className={s['menu-bottom__item']}>
 								Новости
 							</a>
-							<a href='/catalogue' className={s['menu-bottom__item']}>
+							<a href='/' className={s['menu-bottom__item']}>
 								Отзывы
 							</a>
 						</nav>
 					</div>
 					<div className={s['footer__col']}>
 						<nav className={s['menu-bottom']}>
-							<a href='/catalogue' className={s['menu-bottom__item']}>
+							<a href='/' className={s['menu-bottom__item']}>
 								Оплата и доставка
 							</a>
-							<a href='/catalogue' className={s['menu-bottom__item']}>
+							<a href='/' className={s['menu-bottom__item']}>
 								Часто спрашивают
 							</a>
-							<a href='/catalogue' className={s['menu-bottom__item']}>
+							<a href='/' className={s['menu-bottom__item']}>
 								Обратная связь
 							</a>
-							<a href='/catalogue' className={s['menu-bottom__item']}>
+							<a href='/' className={s['menu-bottom__item']}>
 								Контакты
 							</a>
 						</nav>

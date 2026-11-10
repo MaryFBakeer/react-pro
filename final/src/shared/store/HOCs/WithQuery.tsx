@@ -1,11 +1,5 @@
-import {
-	Alert,
-	AlertTitle,
-	Box,
-	Button,
-	CircularProgress,
-	Container,
-} from '@mui/material';
+import { Alert, AlertTitle, Button, Container } from '@mui/material';
+import { Spinner } from '~shared/ui/Spinner';
 import { FC, ComponentType } from 'react';
 import { getMessageFromError } from '~shared/utils';
 import { SerializedError } from '@reduxjs/toolkit';
@@ -43,11 +37,7 @@ export const WithQuery = <T extends object>(
 		}
 
 		if (isLoading) {
-			return (
-				<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-					<CircularProgress />
-				</Box>
-			);
+			return <Spinner />;
 		}
 
 		return <WrappedComponent {...(propsForWrappedComponent as T)} />;
