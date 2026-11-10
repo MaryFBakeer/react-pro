@@ -5,7 +5,7 @@ import truckSVG from '~shared/assets/icons/truck.svg';
 import qualitySVG from '~shared/assets/icons/quality.svg';
 import { Rating } from '~shared/ui/Rating';
 import { ButtonBack } from '~shared/ui/ButtonBack';
-import { LikeButton } from '~shared/ui/LikeButton';
+import { ToggleFavoriteButton } from '~features/toggle-favorite';
 import { ReviewList } from '~widgets/ReviewList';
 import { WithProtection } from '~shared/store/HOCs/WithProtection';
 import { useGetProductQuery } from '~shared/store/api/productsApi';
@@ -65,7 +65,7 @@ export const ProductPage = WithProtection(() => {
 						<ProductCartCounter product={product} />
 					)}
 
-					<LikeButton product={product} />
+					<ToggleFavoriteButton product={product} />
 					<div className={classNames(s['product__delivery'])}>
 						<img src={truckSVG} alt='truck' />
 						<div className={classNames(s['product__right'])}>

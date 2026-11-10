@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import s from './Card.module.css';
 import { Price } from './Price';
 import { Link, useLocation } from 'react-router-dom';
-import { LikeButton } from '~shared/ui/LikeButton';
+import { ToggleFavoriteButton } from '~features/toggle-favorite';
 import { useAppSelector } from '~shared/store/utils';
 import { cartSelectors } from '~shared/store/slices/cart';
 import { CartCounter, useAddToCart } from '~features/cart';
@@ -38,7 +38,7 @@ export const Card = ({ product }: CardProps) => {
 					s['card__sticky'],
 					s['card__sticky_type_top-right']
 				)}>
-				<LikeButton product={product} />
+				<ToggleFavoriteButton product={product} />
 			</div>
 			<Link
 				className={s['card__link']}

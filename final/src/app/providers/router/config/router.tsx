@@ -5,12 +5,12 @@ import { ProductPage } from '~pages/ProductPage';
 import { NotFoundPage } from '~pages/NotFoundPage';
 import { ProfilePage } from '~pages/ProfilePage';
 import { FavoritesPage } from '~pages/FavoritesPage';
-import { App } from '~app';
+import { App } from '../../../App';
 import { SignUpPage } from '~pages/SignUpPage';
 import { SignInPage } from '~pages/SignInPage';
 import { CartPage } from '~pages/CartPage';
 
-export enum AppRoutes {
+enum AppRoutes {
 	HOME = 'home',
 	FAVORITES = 'favorites',
 	PRODUCTS = 'products',
@@ -21,7 +21,7 @@ export enum AppRoutes {
 	NOT_FOUND = 'not_found',
 }
 
-export const RoutePath: Record<AppRoutes, `/${string}` | '*'> = {
+const RoutePath: Record<AppRoutes, `/${string}` | '*'> = {
 	[AppRoutes.HOME]: '/',
 	[AppRoutes.FAVORITES]: '/favorites',
 	[AppRoutes.PRODUCTS]: '/products/:productId',
