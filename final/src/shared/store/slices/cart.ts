@@ -22,10 +22,11 @@ export const cartSlice = createSlice({
 			state,
 			action: PayloadAction<Pick<CartProduct, 'id' | 'count'>>
 		) {
-			state.products = state.products.map((p) => ({
-				...p,
-				count: p.id === action.payload.id ? action.payload.count : p.count,
-			}));
+			for (const product of state.products) {
+				if (product.id === action.payload.id) {
+					product.count = action.payload.count;
+				}
+			}
 		},
 	},
 	selectors: {

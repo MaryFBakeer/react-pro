@@ -8,19 +8,24 @@ const MAX_COUNT = 99;
 
 export const useCount = (productId: string) => {
 	const dispatch = useDispatch();
-	const products = useAppSelector(cartSelectors.getCartProducts);
-	const product = products.find((p) => p.id === productId) as CartProduct;
-
-	const { id, count, stock } = product;
+	const product = useAppSelector((state) =>
+		cartSelectors.getCartProducts(state).find((item) => item.id === productId)
+	);
+	const count = product?.count ?? MIN_COUNT;
+	const stock = product?.stock ?? 0;
 	const handleIncrement = () => {
 		const newCount = count + 1;
 		const validCount = newCount > MAX_COUNT ? MAX_COUNT : newCount;
-		dispatch(cartActions.setCartProductCount({ id, count: validCount }));
+		dispatch(
+			cartActions.setCartProductCount({ id: productId, count: validCount })
+		);
 	};
 	const handleDecrement = () => {
 		const newCount = count - 1;
 		const validCount = newCount < MIN_COUNT ? MIN_COUNT : newCount;
-		dispatch(cartActions.setCartProductCount({ id, count: validCount }));
+		dispatch(
+			cartActions.setCartProductCount({ id: productId, count: validCount })
+		);
 	};
 	const handleSetCount = (e: ChangeEvent<HTMLInputElement>) => {
 		const newCount = +e.target.value;
@@ -30,7 +35,9 @@ export const useCount = (productId: string) => {
 				: newCount < MIN_COUNT
 				? MIN_COUNT
 				: newCount;
-		dispatch(cartActions.setCartProductCount({ id, count: validCount }));
+		dispatch(
+			cartActions.setCartProductCount({ id: productId, count: validCount })
+		);
 	};
 	return { count, stock, handleSetCount, handleIncrement, handleDecrement };
 };

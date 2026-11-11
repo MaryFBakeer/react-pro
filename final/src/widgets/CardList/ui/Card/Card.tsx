@@ -1,21 +1,22 @@
+import { memo } from 'react';
 import { Button } from '~shared/ui/Button';
 import classNames from 'classnames';
 import s from './Card.module.css';
 import { Price } from './Price';
 import { Link, useLocation } from 'react-router-dom';
 import { ToggleFavoriteButton } from '~features/toggle-favorite';
-import { useAppSelector } from '~shared/store/utils';
-import { cartSelectors } from '~shared/store/slices/cart';
 import { CartCounter, useAddToCart } from '~features/cart';
 
 type CardProps = {
 	product: Product;
+	isProductInCart: boolean;
 };
-export const Card = ({ product }: CardProps) => {
+export const Card = memo(function Card({
+	product,
+	isProductInCart,
+}: CardProps) {
 	const { pathname, search, hash } = useLocation();
 	const { discount, price, name, tags, id, images } = product;
-	const cartProducts = useAppSelector(cartSelectors.getCartProducts);
-	const isProductInCart = cartProducts.some((p) => p.id === id);
 	const { addProductToCart } = useAddToCart();
 
 	return (
@@ -68,4 +69,4 @@ export const Card = ({ product }: CardProps) => {
 			)}
 		</article>
 	);
-};
+});

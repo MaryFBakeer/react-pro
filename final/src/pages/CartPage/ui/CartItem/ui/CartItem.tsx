@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { ReactComponent as TrashIcon } from '~shared/assets/icons/trash.svg';
 import { Link, useLocation } from 'react-router-dom';
 import s from '../../CartPage.module.css';
@@ -9,7 +10,7 @@ import { CartCounter } from '~features/cart';
 type CartItemProps = {
 	product: CartProduct;
 };
-export const CartItem = ({ product }: CartItemProps) => {
+export const CartItem = memo(function CartItem({ product }: CartItemProps) {
 	const { pathname, search, hash } = useLocation();
 	const dispatch = useDispatch();
 	const { id, name, images, price, discount } = product;
@@ -58,4 +59,4 @@ export const CartItem = ({ product }: CartItemProps) => {
 			</div>
 		</div>
 	);
-};
+});
