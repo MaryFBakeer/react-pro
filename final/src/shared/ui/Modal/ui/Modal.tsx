@@ -25,7 +25,6 @@ export const Modal = ({
 		if (!dialog) return;
 
 		dialog.showModal();
-		closeButtonRef.current?.focus();
 
 		return () => {
 			dialog.close();
@@ -34,6 +33,10 @@ export const Modal = ({
 			}
 		};
 	}, [portalRoot, returnFocusTo]);
+
+	useLayoutEffect(() => {
+		closeButtonRef.current?.focus();
+	}, [portalRoot, returnFocusTo, title]);
 
 	if (!portalRoot) return null;
 

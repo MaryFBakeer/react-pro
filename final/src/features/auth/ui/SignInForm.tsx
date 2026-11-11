@@ -1,7 +1,7 @@
 import { saveUserSession } from '~shared/store/userSession';
 import { AuthFields } from './AuthFields';
-import { FC } from 'react';
-import { Avatar, Box, Container, Link, Typography } from '@mui/material';
+import { FC, useState } from 'react';
+import { Alert, Avatar, Box, Container, Link, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -16,8 +16,14 @@ import { useSignInMutation } from '~shared/store/api/authApi';
 import { userActions } from '~shared/store/slices/user';
 import { getMessageFromError } from '~shared/utils';
 
-export const SignInForm: FC = () => {
+type SignInFormProps = {
+	onSwitch?: () => void;
+	onSuccess?: () => void;
+};
+
+export const SignInForm: FC<SignInFormProps> = ({ onSwitch, onSuccess }) => {
 	const dispatch = useDispatch();
+	const [submitError, setSubmitError] = useState<string | null>(null);
 	const location = useLocation();
 	// navigate поможет сделать редирект в нужный момент
 	const navigate = useNavigate();
@@ -42,6 +48,7 @@ export const SignInForm: FC = () => {
 	});
 
 	const submitHandler: SubmitHandler<AuthCredentials> = async (values) => {
+		setSubmitError(null);
 		try {
 			// метод "unwrap" помогает убрать вспомогательные обертки
 			// RTK, которые обрабатывают ошибки. Теперь ошибки обрабатываем мы
@@ -56,6 +63,11 @@ export const SignInForm: FC = () => {
 			// react-toastify — https://github.com/fkhadra/react-toastify#readme
 			toast.success('Вы успешно авторизованы!');
 
+			if (onSuccess) {
+				onSuccess();
+				return;
+			}
+
 			if (location.state?.from) {
 				return navigate(location.state.from);
 			}
@@ -63,12 +75,15 @@ export const SignInForm: FC = () => {
 			navigate('/');
 		} catch (error) {
 			// Если произошла ошибка, то выводим уведомление
-			toast.error(
-				getMessageFromError(
-					error,
-					'Не известная ошибка при авторизации пользователя'
-				)
+			const message = getMessageFromError(
+				error,
+				'Не известная ошибка при авторизации пользователя'
 			);
+			if (onSuccess) {
+				setSubmitError(message);
+			} else {
+				toast.error(message);
+			}
 		}
 	};
 
@@ -76,7 +91,6 @@ export const SignInForm: FC = () => {
 		<Container maxWidth='xs'>
 			<Box
 				sx={{
-					marginTop: 8,
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
@@ -93,6 +107,7 @@ export const SignInForm: FC = () => {
 					noValidate
 					sx={{ my: 1 }}>
 					<AuthFields control={control} />
+					{submitError && <Alert severity='error'>{submitError}</Alert>}
 
 					<LoadingButton
 						type='submit'
@@ -106,9 +121,19 @@ export const SignInForm: FC = () => {
 						SIGN IN
 					</LoadingButton>
 					<Box display='flex' justifyContent='center' flexGrow={1}>
-						<Link component={RouterLink} to='/signup'>
-							SIGN UP
-						</Link>
+						{onSwitch ? (
+							<Link
+								component='button'
+								type='button'
+								disabled={isSubmitting}
+								onClick={onSwitch}>
+								SIGN UP
+							</Link>
+						) : (
+							<Link component={RouterLink} to='/signup'>
+								SIGN UP
+							</Link>
+						)}
 					</Box>
 				</Box>
 			</Box>

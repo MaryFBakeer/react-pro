@@ -1,9 +1,9 @@
 import { saveUserSession } from '~shared/store/userSession';
 import { AuthFields } from './AuthFields';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Avatar, Box, Container, Link, Typography } from '@mui/material';
+import { Alert, Avatar, Box, Container, Link, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -15,8 +15,14 @@ import { userActions } from '~shared/store/slices/user';
 import { getMessageFromError } from '~shared/utils';
 import { useSignUpMutation } from '~shared/store/api/authApi';
 
-export const SignUpForm: FC = () => {
+type SignUpFormProps = {
+	onSwitch?: () => void;
+	onSuccess?: () => void;
+};
+
+export const SignUpForm: FC<SignUpFormProps> = ({ onSwitch, onSuccess }) => {
 	const dispatch = useDispatch();
+	const [submitError, setSubmitError] = useState<string | null>(null);
 	// navigate поможет сделать редирект в нужный момент
 	const navigate = useNavigate();
 	// Из хука useSignUpMutation (был получен путем автогенерации)
@@ -40,6 +46,7 @@ export const SignUpForm: FC = () => {
 	});
 
 	const submitHandler: SubmitHandler<AuthCredentials> = async (values) => {
+		setSubmitError(null);
 		try {
 			// метод "unwrap" помогает убрать вспомогательные обертки
 			// RTK, которые обрабатывают ошибки. Теперь ошибки обрабатываем мы
@@ -53,16 +60,24 @@ export const SignUpForm: FC = () => {
 			// Есть куча библиотек для отображения "Тостеров". Мы используем
 			// react-toastify — https://github.com/fkhadra/react-toastify#readme
 			toast.success('Вы успешно зарегистрированы!');
+			if (onSuccess) {
+				onSuccess();
+				return;
+			}
+
 			navigate('/');
 		} catch (error) {
 			// Если произошла ошибка, то выводим уведомление
 			console.log({ error });
-			toast.error(
-				getMessageFromError(
-					error,
-					'Не известная ошибка при регистрации пользователя'
-				)
+			const message = getMessageFromError(
+				error,
+				'Не известная ошибка при регистрации пользователя'
 			);
+			if (onSuccess) {
+				setSubmitError(message);
+			} else {
+				toast.error(message);
+			}
 		}
 	};
 
@@ -70,7 +85,6 @@ export const SignUpForm: FC = () => {
 		<Container maxWidth='xs'>
 			<Box
 				sx={{
-					marginTop: 8,
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
@@ -87,6 +101,7 @@ export const SignUpForm: FC = () => {
 					noValidate
 					sx={{ mt: 1 }}>
 					<AuthFields control={control} />
+					{submitError && <Alert severity='error'>{submitError}</Alert>}
 
 					<LoadingButton
 						type='submit'
@@ -100,9 +115,19 @@ export const SignUpForm: FC = () => {
 						SIGN UP
 					</LoadingButton>
 					<Box display='flex' justifyContent='center' flexGrow={1}>
-						<Link component={RouterLink} to='/signin'>
-							SIGN IN
-						</Link>
+						{onSwitch ? (
+							<Link
+								component='button'
+								type='button'
+								disabled={isSubmitting}
+								onClick={onSwitch}>
+								SIGN IN
+							</Link>
+						) : (
+							<Link component={RouterLink} to='/signin'>
+								SIGN IN
+							</Link>
+						)}
 					</Box>
 				</Box>
 			</Box>

@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useLayoutEffect, useRef, useState } from 'react';
 import s from './Header.module.css';
 import { Logo } from '~shared/ui/Logo';
 import { Search } from '~features/search';
@@ -8,9 +9,15 @@ import { userSelectors } from '~shared/store/slices/user';
 import { isLiked } from '~shared/utils';
 import { useProducts } from '~shared/store/hooks/useProducts';
 import { cartSelectors } from '~shared/store/slices/cart';
-import { SignOutButton } from '~features/auth';
+import { AuthModal, SignOutButton } from '~features/auth';
+import { Button } from '~shared/ui/Button';
 
 export const Header = () => {
+	const [authTrigger, setAuthTrigger] = useState<HTMLButtonElement | null>(
+		null
+	);
+	const profileLinkRef = useRef<HTMLAnchorElement>(null);
+	const focusProfileAfterAuth = useRef(false);
 	const isCatalog = useMatch('/') !== null;
 	const { products } = useProducts();
 	const user = useAppSelector(userSelectors.getUser);
@@ -21,6 +28,13 @@ export const Header = () => {
 	).length;
 
 	const accessToken = useAppSelector(userSelectors.getAccessToken);
+
+	useLayoutEffect(() => {
+		if (accessToken && focusProfileAfterAuth.current) {
+			profileLinkRef.current?.focus();
+			focusProfileAfterAuth.current = false;
+		}
+	}, [accessToken, authTrigger]);
 
 	return (
 		<header className={s.header}>
@@ -60,9 +74,13 @@ export const Header = () => {
 							{cartProducts.length}
 						</span>
 					</Link>
-					{accessToken && (
+					{accessToken ? (
 						<>
-							<Link className={s['header__icons-menu-item']} to='/profile'>
+							<Link
+								ref={profileLinkRef}
+								aria-label='Профиль'
+								className={s['header__icons-menu-item']}
+								to='/profile'>
 								<svg
 									viewBox='64 64 896 896'
 									focusable='false'
@@ -82,6 +100,24 @@ export const Header = () => {
 								)}
 							/>
 						</>
+					) : (
+						<Button
+							type='button'
+							size='small'
+							aria-haspopup='dialog'
+							onClick={(event) => setAuthTrigger(event.currentTarget)}>
+							Войти
+						</Button>
+					)}
+					{!accessToken && authTrigger && (
+						<AuthModal
+							returnFocusTo={authTrigger}
+							onClose={() => setAuthTrigger(null)}
+							onSuccess={() => {
+								focusProfileAfterAuth.current = true;
+								setAuthTrigger(null);
+							}}
+						/>
 					)}
 				</div>
 			</div>

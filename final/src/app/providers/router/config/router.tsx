@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { HomePage } from '~pages/HomePage';
 import { ProductPage } from '~pages/ProductPage';
@@ -6,8 +6,6 @@ import { NotFoundPage } from '~pages/NotFoundPage';
 import { ProfilePage } from '~pages/ProfilePage';
 import { FavoritesPage } from '~pages/FavoritesPage';
 import { App } from '../../../App';
-import { SignUpPage } from '~pages/SignUpPage';
-import { SignInPage } from '~pages/SignInPage';
 import { CartPage } from '~pages/CartPage';
 
 enum AppRoutes {
@@ -59,11 +57,11 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: RoutePath.signup,
-				element: <SignUpPage />,
+				element: <Navigate to={RoutePath.home} replace />,
 			},
 			{
 				path: RoutePath.signin,
-				element: <SignInPage />,
+				element: <Navigate to={RoutePath.home} replace />,
 			},
 
 			// last route
