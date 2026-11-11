@@ -14,7 +14,8 @@ export const AuthModal = ({
 	onClose,
 	onSuccess,
 }: AuthModalProps) => {
-	const [isSignUp, setIsSignUp] = useState(false);
+	const [mode, setMode] = useState<'signIn' | 'signUp' | null>(null);
+	const isSignUp = mode === 'signUp';
 	const Form = isSignUp ? SignUpForm : SignInForm;
 
 	return (
@@ -22,7 +23,11 @@ export const AuthModal = ({
 			title={isSignUp ? 'Регистрация' : 'Вход'}
 			onClose={onClose}
 			returnFocusTo={returnFocusTo}>
-			<Form onSwitch={() => setIsSignUp(!isSignUp)} onSuccess={onSuccess} />
+			<Form
+				focusEmail={mode !== null}
+				onSwitch={() => setMode(isSignUp ? 'signIn' : 'signUp')}
+				onSuccess={onSuccess}
+			/>
 		</Modal>
 	);
 };

@@ -1,6 +1,6 @@
 import { saveUserSession } from '~shared/store/userSession';
 import { AuthFields } from './AuthFields';
-import { FC, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Alert, Avatar, Box, Container, Link, Typography } from '@mui/material';
@@ -16,12 +16,18 @@ import { getMessageFromError } from '~shared/utils';
 import { useSignUpMutation } from '~shared/store/api/authApi';
 
 type SignUpFormProps = {
+	focusEmail?: boolean;
 	onSwitch?: () => void;
 	onSuccess?: () => void;
 };
 
-export const SignUpForm: FC<SignUpFormProps> = ({ onSwitch, onSuccess }) => {
+export const SignUpForm: FC<SignUpFormProps> = ({
+	focusEmail,
+	onSwitch,
+	onSuccess,
+}) => {
 	const dispatch = useDispatch();
+	const isRequestInFlight = useRef(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
 	// navigate поможет сделать редирект в нужный момент
 	const navigate = useNavigate();
@@ -46,6 +52,9 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onSwitch, onSuccess }) => {
 	});
 
 	const submitHandler: SubmitHandler<AuthCredentials> = async (values) => {
+		if (isRequestInFlight.current) return;
+
+		isRequestInFlight.current = true;
 		setSubmitError(null);
 		try {
 			// метод "unwrap" помогает убрать вспомогательные обертки
@@ -78,6 +87,8 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onSwitch, onSuccess }) => {
 			} else {
 				toast.error(message);
 			}
+		} finally {
+			isRequestInFlight.current = false;
 		}
 	};
 
@@ -100,7 +111,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onSwitch, onSuccess }) => {
 					onSubmit={handleSubmit(submitHandler)}
 					noValidate
 					sx={{ mt: 1 }}>
-					<AuthFields control={control} />
+					<AuthFields control={control} focusEmail={focusEmail} />
 					{submitError && <Alert severity='error'>{submitError}</Alert>}
 
 					<LoadingButton

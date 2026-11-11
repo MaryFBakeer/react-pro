@@ -1,6 +1,6 @@
 import { saveUserSession } from '~shared/store/userSession';
 import { AuthFields } from './AuthFields';
-import { FC, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { Alert, Avatar, Box, Container, Link, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -17,12 +17,18 @@ import { userActions } from '~shared/store/slices/user';
 import { getMessageFromError } from '~shared/utils';
 
 type SignInFormProps = {
+	focusEmail?: boolean;
 	onSwitch?: () => void;
 	onSuccess?: () => void;
 };
 
-export const SignInForm: FC<SignInFormProps> = ({ onSwitch, onSuccess }) => {
+export const SignInForm: FC<SignInFormProps> = ({
+	focusEmail,
+	onSwitch,
+	onSuccess,
+}) => {
 	const dispatch = useDispatch();
+	const isRequestInFlight = useRef(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
 	const location = useLocation();
 	// navigate поможет сделать редирект в нужный момент
@@ -48,6 +54,9 @@ export const SignInForm: FC<SignInFormProps> = ({ onSwitch, onSuccess }) => {
 	});
 
 	const submitHandler: SubmitHandler<AuthCredentials> = async (values) => {
+		if (isRequestInFlight.current) return;
+
+		isRequestInFlight.current = true;
 		setSubmitError(null);
 		try {
 			// метод "unwrap" помогает убрать вспомогательные обертки
@@ -84,6 +93,8 @@ export const SignInForm: FC<SignInFormProps> = ({ onSwitch, onSuccess }) => {
 			} else {
 				toast.error(message);
 			}
+		} finally {
+			isRequestInFlight.current = false;
 		}
 	};
 
@@ -106,7 +117,7 @@ export const SignInForm: FC<SignInFormProps> = ({ onSwitch, onSuccess }) => {
 					onSubmit={handleSubmit(submitHandler)}
 					noValidate
 					sx={{ my: 1 }}>
-					<AuthFields control={control} />
+					<AuthFields control={control} focusEmail={focusEmail} />
 					{submitError && <Alert severity='error'>{submitError}</Alert>}
 
 					<LoadingButton
