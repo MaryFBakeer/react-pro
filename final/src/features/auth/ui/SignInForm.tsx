@@ -5,7 +5,7 @@ import { Alert, Avatar, Box, Container, Link, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { Button } from '~shared/ui/Button';
 import { toast } from 'react-toastify';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 
@@ -29,6 +29,7 @@ export const SignInForm: FC<SignInFormProps> = ({
 }) => {
 	const dispatch = useDispatch();
 	const isRequestInFlight = useRef(false);
+	const [showPendingNotice, setShowPendingNotice] = useState(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
 	const location = useLocation();
 	// navigate поможет сделать редирект в нужный момент
@@ -54,7 +55,10 @@ export const SignInForm: FC<SignInFormProps> = ({
 	});
 
 	const submitHandler: SubmitHandler<AuthCredentials> = async (values) => {
-		if (isRequestInFlight.current) return;
+		if (isRequestInFlight.current) {
+			setShowPendingNotice(true);
+			return;
+		}
 
 		isRequestInFlight.current = true;
 		setSubmitError(null);
@@ -95,6 +99,7 @@ export const SignInForm: FC<SignInFormProps> = ({
 			}
 		} finally {
 			isRequestInFlight.current = false;
+			setShowPendingNotice(false);
 		}
 	};
 
@@ -120,17 +125,14 @@ export const SignInForm: FC<SignInFormProps> = ({
 					<AuthFields control={control} focusEmail={focusEmail} />
 					{submitError && <Alert severity='error'>{submitError}</Alert>}
 
-					<LoadingButton
-						type='submit'
-						// кнопка становится недоступной после первой валидации (если есть ошибки)
-						// или когда выполняется отправка (чтобы не дать пользователю отправить форму несколько раз)
-						disabled={isSubmitted && (!isValid || isSubmitting)}
-						loading={isSubmitting}
-						fullWidth
-						variant='contained'
-						sx={{ mt: 3, mb: 2 }}>
+					<Button type='submit' disabled={isSubmitted && !isValid} fullWidth>
 						SIGN IN
-					</LoadingButton>
+					</Button>
+					{showPendingNotice && (
+						<Alert severity='info' sx={{ mt: 1 }}>
+							Запрос на вход уже отправлен. Дождитесь ответа.
+						</Alert>
+					)}
 					<Box display='flex' justifyContent='center' flexGrow={1}>
 						{onSwitch ? (
 							<Link

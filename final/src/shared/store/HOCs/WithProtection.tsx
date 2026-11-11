@@ -9,9 +9,7 @@ export const WithProtection = <P extends object>(
 		const accessToken = useAppSelector(userSelectors.getAccessToken);
 
 		if (!accessToken) {
-			return (
-				<p>Чтобы открыть эту страницу, нажмите «Войти» в шапке сайта.</p>
-			);
+			return <p>Чтобы открыть эту страницу, нажмите «Войти» в шапке сайта.</p>;
 		}
 
 		return <WrappedComponent {...props} />;

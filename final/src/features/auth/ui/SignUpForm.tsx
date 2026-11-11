@@ -3,8 +3,16 @@ import { AuthFields } from './AuthFields';
 import { FC, useRef, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Alert, Avatar, Box, Container, Link, Typography } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
+import {
+	Alert,
+	Avatar,
+	Box,
+	CircularProgress,
+	Container,
+	Link,
+	Typography,
+} from '@mui/material';
+import { Button } from '~shared/ui/Button';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -110,21 +118,22 @@ export const SignUpForm: FC<SignUpFormProps> = ({
 					component='form'
 					onSubmit={handleSubmit(submitHandler)}
 					noValidate
-					sx={{ mt: 1 }}>
+					sx={{ my: 1 }}>
 					<AuthFields control={control} focusEmail={focusEmail} />
 					{submitError && <Alert severity='error'>{submitError}</Alert>}
 
-					<LoadingButton
+					<Button
 						type='submit'
-						// кнопка становится недоступной после первой валидации (если есть ошибки)
-						// или когда выполняется отправка (чтобы не дать пользователю отправить форму несколько раз)
-						disabled={isSubmitted && (!isValid || isSubmitting)}
-						loading={isSubmitting}
-						fullWidth
-						variant='contained'
-						sx={{ mt: 3, mb: 2 }}>
-						SIGN UP
-					</LoadingButton>
+						disabled={isSubmitting || (isSubmitted && !isValid)}
+						aria-busy={isSubmitting}
+						aria-label={isSubmitting ? 'Регистрация…' : undefined}
+						fullWidth>
+						{isSubmitting ? (
+							<CircularProgress size={20} color='inherit' aria-hidden />
+						) : (
+							'SIGN UP'
+						)}
+					</Button>
 					<Box display='flex' justifyContent='center' flexGrow={1}>
 						{onSwitch ? (
 							<Link

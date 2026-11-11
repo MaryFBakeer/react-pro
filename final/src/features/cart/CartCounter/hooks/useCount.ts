@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import { cartActions, cartSelectors } from '~shared/store/slices/cart';
-import { useDispatch } from 'react-redux';
+import { shallowEqual, useDispatch } from 'react-redux';
 import { useAppSelector } from '~shared/store/utils';
 
 const MIN_COUNT = 1;
@@ -8,11 +8,16 @@ const MAX_COUNT = 99;
 
 export const useCount = (productId: string) => {
 	const dispatch = useDispatch();
-	const product = useAppSelector((state) =>
-		cartSelectors.getCartProducts(state).find((item) => item.id === productId)
-	);
-	const count = product?.count ?? MIN_COUNT;
-	const stock = product?.stock ?? 0;
+	const { count, stock } = useAppSelector((state) => {
+		const product = cartSelectors
+			.getCartProducts(state)
+			.find((item) => item.id === productId);
+
+		return {
+			count: product?.count ?? MIN_COUNT,
+			stock: product?.stock ?? 0,
+		};
+	}, shallowEqual);
 	const handleIncrement = () => {
 		const newCount = count + 1;
 		const validCount = newCount > MAX_COUNT ? MAX_COUNT : newCount;

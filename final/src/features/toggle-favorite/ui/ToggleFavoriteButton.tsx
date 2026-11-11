@@ -11,7 +11,9 @@ import { toast } from 'react-toastify';
 type ToggleFavoriteButtonProps = {
 	product: Product;
 };
-export const ToggleFavoriteButton = ({ product }: ToggleFavoriteButtonProps) => {
+export const ToggleFavoriteButton = ({
+	product,
+}: ToggleFavoriteButtonProps) => {
 	const accessToken = useAppSelector(userSelectors.getAccessToken);
 	const user = useAppSelector(userSelectors.getUser);
 

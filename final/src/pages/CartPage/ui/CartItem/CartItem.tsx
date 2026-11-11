@@ -1,19 +1,26 @@
 import { memo } from 'react';
 import { ReactComponent as TrashIcon } from '~shared/assets/icons/trash.svg';
 import { Link, useLocation } from 'react-router-dom';
-import s from '../../CartPage.module.css';
+import s from '../CartPage.module.css';
 import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
 import { cartActions } from '~shared/store/slices/cart';
 import { CartCounter } from '~features/cart';
 
-type CartItemProps = {
-	product: CartProduct;
-};
-export const CartItem = memo(function CartItem({ product }: CartItemProps) {
+type CartItemProps = Pick<
+	CartProduct,
+	'id' | 'name' | 'images' | 'price' | 'discount'
+>;
+
+export const CartItem = memo(function CartItem({
+	id,
+	name,
+	images,
+	price,
+	discount,
+}: CartItemProps) {
 	const { pathname, search, hash } = useLocation();
 	const dispatch = useDispatch();
-	const { id, name, images, price, discount } = product;
 
 	const handleDelete = () => {
 		dispatch(cartActions.deleteCartProduct(id));
