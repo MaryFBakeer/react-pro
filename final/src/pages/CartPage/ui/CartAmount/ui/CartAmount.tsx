@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { Button } from '~shared/ui/Button';
+import { Modal } from '~shared/ui/Modal';
 import s from '../../CartPage.module.css';
 import classNames from 'classnames';
 
@@ -6,15 +8,20 @@ type CartAmountProps = {
 	products: CartProduct[];
 };
 export const CartAmount = ({ products }: CartAmountProps) => {
+	const [checkoutTrigger, setCheckoutTrigger] =
+		useState<HTMLButtonElement | null>(null);
 	const allPrice = products.reduce((acc, p) => p.price * p.count + acc, 0);
 	const allDiscount = products.reduce(
 		(acc, p) => p.discount * p.count + acc,
 		0
 	);
 
+	const closeCheckout = () => setCheckoutTrigger(null);
+
 	const handleSubmitCart = () => {
 		const order = products.map((p) => ({ id: p.id, count: p.count }));
 		console.log('Отправка заказа на сервер: ', JSON.stringify(order, null, 2));
+		closeCheckout();
 	};
 
 	return (
@@ -50,9 +57,24 @@ export const CartAmount = ({ products }: CartAmountProps) => {
 					{`${allPrice - allDiscount} ₽`}
 				</span>
 			</div>
-			<Button onClick={handleSubmitCart} fullWidth>
+			<Button
+				type='button'
+				aria-haspopup='dialog'
+				onClick={(event) => setCheckoutTrigger(event.currentTarget)}
+				fullWidth>
 				Оформить заказ
 			</Button>
+			{checkoutTrigger && (
+				<Modal
+					title='Подтвердить заказ'
+					onClose={closeCheckout}
+					returnFocusTo={checkoutTrigger}>
+					<p>К оплате {allPrice - allDiscount} ₽</p>
+					<Button type='button' onClick={handleSubmitCart} fullWidth>
+						Подтвердить
+					</Button>
+				</Modal>
+			)}
 		</div>
 	);
 };
