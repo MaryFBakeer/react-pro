@@ -1,5 +1,5 @@
 import { Button } from '~shared/ui/Button';
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useActionState, useState } from 'react';
 import classNames from 'classnames';
 import s from './ReviewForm.module.css';
 import { Rating } from '~shared/ui/Rating';
@@ -13,30 +13,25 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
 	const [reviewText, setReviewText] = useState('');
 	const [rating, setRating] = useState(0);
 	const text = reviewText.trim();
-
-	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-		setReviewText(e.target.value);
-	};
-
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-
+	const [error, submitReview] = useActionState<string | null>(() => {
 		if (!text || rating === 0) {
-			return;
+			return 'Введите текст отзыва и выберите оценку.';
 		}
 
 		try {
 			onSubmit({ text, rating });
-			setReviewText('');
-			setRating(0);
-			toast.success('Отзыв отправлен');
 		} catch {
-			toast.error('Не удалось отправить отзыв. Попробуйте ещё раз.');
+			return 'Не удалось отправить отзыв. Попробуйте ещё раз.';
 		}
-	};
+
+		setReviewText('');
+		setRating(0);
+		toast.success('Отзыв отправлен');
+		return null;
+	}, null);
 
 	return (
-		<form className={s['form']} onSubmit={handleSubmit}>
+		<form className={s['form']} action={submitReview}>
 			<Rating isEdit rating={rating} onChange={setRating} />
 			<textarea
 				className={classNames(s['input'], s['textarea'])}
@@ -44,7 +39,9 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
 				id='text'
 				placeholder='Напишите текст отзыва'
 				value={reviewText}
-				onChange={handleChange}></textarea>
+				onChange={(event) => setReviewText(event.target.value)}
+			/>
+			{error && <p role='alert'>{error}</p>}
 			<Button
 				type='submit'
 				size='large'
