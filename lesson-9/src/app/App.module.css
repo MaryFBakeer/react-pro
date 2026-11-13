@@ -1,0 +1,15 @@
+.page {
+  padding: 20px;
+}
+
+.sectionTitle {
+  margin: 32px 0 20px;
+  padding-bottom: 15px;
+}
+
+.title {
+  font-size: clamp(28px, 5vw, 40px);
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  overflow-wrap: anywhere;
+}
