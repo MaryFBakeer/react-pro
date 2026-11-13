@@ -1,0 +1,6 @@
+node_modules
+.DS_Store
+dist
+dogfood
+/webpack-stats.json
+/esbuild-meta.json

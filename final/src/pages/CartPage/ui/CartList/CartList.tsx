@@ -1,0 +1,23 @@
+import { CartItem } from '../CartItem';
+import s from '../CartPage.module.css';
+import classNames from 'classnames';
+
+type CartListProps = {
+	products: CartProduct[];
+};
+export const CartList = ({ products }: CartListProps) => {
+	return (
+		<div className={classNames(s['cart-list'])}>
+			{products.map(({ id, name, images, price, discount }) => (
+				<CartItem
+					key={id}
+					id={id}
+					name={name}
+					images={images}
+					price={price}
+					discount={discount}
+				/>
+			))}
+		</div>
+	);
+};
